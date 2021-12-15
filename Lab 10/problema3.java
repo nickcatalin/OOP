@@ -29,7 +29,7 @@ class problema3 extends JFrame implements ActionListener {
     public problema3()
     {
 
-
+        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
 
 
@@ -129,7 +129,7 @@ class CheckBox {
         f.setTitle("RadioButtons");
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("C:\\Users\\cata\\Desktop\\lab10\\src\\Intrebare.txt"));
+            reader = new BufferedReader(new FileReader("C:\\Users\\cata\\Documents\\Git\\OOP\\Lab 10\\Intrebare.txt"));
             String line = reader.readLine();
             f.L1.setText(line);
             line=reader.readLine();

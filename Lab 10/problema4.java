@@ -96,7 +96,7 @@ class problema4 extends JFrame implements ChangeListener, ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
 
-           Button.setBackground(new java.awt.Color(red.getValue(),green.getValue(),blue.getValue()));
+
 
 
     }
@@ -104,6 +104,7 @@ class problema4 extends JFrame implements ChangeListener, ActionListener {
 
     public void stateChanged(ChangeEvent e)
     {
+        Button.setBackground(new java.awt.Color(red.getValue(),green.getValue(),blue.getValue()));
         l.setText("value of Slider is =" + red.getValue());
     }
 

@@ -30,7 +30,7 @@ class problema2 extends JFrame implements ActionListener {
 
     public problema2()
     {
-
+        setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 
         this.setLayout(null);
 

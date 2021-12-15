@@ -15,7 +15,8 @@ class problema5 extends JFrame implements  ActionListener {
     int i=0;
 
     public static void main(String[] args)
-    {   colors.add(Color.BLACK);
+    {
+        colors.add(Color.BLACK);
         colors.add(Color.red);
         colors.add(Color.blue);
         colors.add(Color.cyan);
@@ -24,7 +25,7 @@ class problema5 extends JFrame implements  ActionListener {
         colors.add(Color.green);
         f = new JFrame("frame");
 
-        solve s = new solve();
+        problema5 s = new problema5();
 
 
         f.setSize(600, 300);
