@@ -1,0 +1,69 @@
+[
+    {
+      "credentials": {
+        "email": "marcel@yahoo.com",
+        "password": "6K7GUxjsAc"
+      },
+      "name": "Marcel",
+      "country": "Romania",
+      "favorite_games": [
+        "Metin",
+        "4Story"
+      ],
+      "maps_completed": "15",
+      "characters": [
+        {
+          "name": "Odysseus Prisco",
+          "profession": "Warrior",
+          "level": "1",
+          "experience": 15
+        },
+        {
+          "name": "Kameron Neppl",
+          "profession": "Mage",
+          "level": "1",
+          "experience": 10
+        },
+        {
+          "name": "Chlarimonde Markert",
+          "profession": "Rogue",
+          "level": "1",
+          "experience": 35
+        }
+      ]
+    },
+    {
+      "credentials": {
+        "email": "genna1951@hotmail.red",
+        "password": "123456"
+      },
+      "name": "Nawra Ortwin",
+      "country": "Turkey",
+      "favorite_games": [
+        "World of Warcraft",
+        "Metin2",
+        "Need for Speed"
+      ],
+      "maps_completed": "3",
+      "characters": [
+        {
+          "name": "Brisco Schaab",
+          "profession": "Warrior",
+          "level": "4",
+          "experience": 21
+        },
+        {
+          "name": "Scarlett Gardon",
+          "profession": "Mage",
+          "level": "7",
+          "experience": 50
+        },
+        {
+          "name": "Miyoko Fei",
+          "profession": "Rogue",
+          "level": "15",
+          "experience": 40
+        }
+      ]
+    }
+  ]
