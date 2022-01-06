@@ -31,6 +31,6 @@ public class Shop implements CellElement{
 
     @Override
     public String toCharacter() {
-        return "S";
+        return "S  ";
     }
 }

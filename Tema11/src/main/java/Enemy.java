@@ -47,6 +47,6 @@ public Enemy()
     }
     @Override
     public String toCharacter() {
-        return "E";
+        return "E ";
     }
 }

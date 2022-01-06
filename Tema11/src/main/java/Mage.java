@@ -9,6 +9,7 @@ public class Mage extends Character{
     public Mage(String name,int level,int experience)
     {
         super(name,level,experience);
+        super.profession="Mage";
         super.MaxHealth=80;
         super.MaxMana=125;
         super.CurrentHealth=80;

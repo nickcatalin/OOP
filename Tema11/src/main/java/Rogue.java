@@ -9,6 +9,7 @@ public class Rogue extends Character{
     public Rogue(String name,int level,int experience)
     {
         super(name,level,experience);
+        super.profession="Rogue";
         super.MaxHealth=100;
         super.MaxMana=75;
         super.CurrentHealth=100;

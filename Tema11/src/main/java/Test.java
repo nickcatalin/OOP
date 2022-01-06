@@ -11,7 +11,7 @@ public class Test {
     Game game = Game.getInstance();
 
     game.run();
-    game.print();
+    //game.print();
 
 
   }

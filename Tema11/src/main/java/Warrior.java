@@ -9,6 +9,7 @@ public class Warrior extends Character{
     public Warrior(String name,int level,int experience)
     {
         super(name,level,experience);
+        super.profession="Warrior";
         super.MaxHealth=150;
         super.MaxMana=50;
         super.CurrentHealth=150;

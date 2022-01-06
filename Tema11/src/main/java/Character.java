@@ -1,5 +1,6 @@
 public abstract class Character extends Entity {
-  String name;
+   String name;
+   String profession;
    int Current_Ox,Current_Oy;
    Inventory Character_Inventory;
    int experience;
@@ -16,6 +17,9 @@ public abstract class Character extends Entity {
     this.name=name;
     this.level=level;
     this.experience=experience;
+  }
+  public String toString() {
+       return this.profession+" "+ this.name + " "+ this.level + " "+ this.experience;
   }
   // metoda pentru cumpararea
 

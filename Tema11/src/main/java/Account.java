@@ -7,13 +7,17 @@ public class Account {
   Information playerInfo;
   List<Character> allAccountCharactes=new ArrayList<Character>() ;
   int allGamesNumber ;
+
+  public String toString() {
+    return this.allAccountCharactes+" " +this.playerInfo;
+  }
 }
 
 class Information {
-  private Credentials playerCredentials = new Credentials();
-  private List<String> favoriteGames = new ArrayList<String>();
-  private String Name;
-  private String Country;
+  public Credentials playerCredentials = new Credentials();
+  public List<String> favoriteGames = new ArrayList<String>();
+  public String Name;
+  public String Country;
 
   public Information(
       Credentials playerCredentials, List<String> favoriteGames, String Name, String Country) {
@@ -37,6 +41,10 @@ class Information {
 
   public String getCountry() {
     return this.Country;
+  }
+
+  public String toString() {
+    return  this.Name + " " + this.Country ;
   }
 }
 
@@ -84,7 +92,7 @@ class Credentials {
 
   public boolean equals(String email, String password) {
 
-    if (this.email == email && this.password == password) return true;
+    if (this.email.equals(email)&& this.password.equals(password)) return true;
     return false;
   }
 }
