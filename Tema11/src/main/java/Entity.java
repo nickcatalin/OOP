@@ -29,8 +29,8 @@ public abstract class Entity {
     public int useAbility(Spell spell,Entity enemy) {
     if (spell.mana < this.CurrentMana) {
      CurrentMana=CurrentMana-spell.mana;
-      //enemy.accept(spell);
-        spell.visit(enemy);
+    // enemy.accept(spell);
+       spell.visit(enemy);
       return 1;
     }
     return 0;

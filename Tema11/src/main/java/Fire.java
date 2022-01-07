@@ -24,6 +24,7 @@ public class Fire extends Spell{
 
     public void visit(Enemy enemy)
     {
+        System.out.println("dfgdfjhgdjhgd");
     if(enemy.fireProtection==false)
         enemy.receiveDamage(super.damage);
 

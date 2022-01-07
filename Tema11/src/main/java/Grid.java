@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Grid extends ArrayList {
 List<Cell> Map;
@@ -43,6 +44,69 @@ private static Grid grid;
 
 
     }
+    private void generateRandomMap()
+    {
+        Random rand = new Random();
+        this.HelperGrid();
+        Cell celula;
+        int i,j;
+        i=rand.nextInt(this.lenght);
+        System.out.println(i);
+        j=rand.nextInt(this.width);
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Shop()));
+        i=rand.nextInt(this.lenght);
+        j=rand.nextInt(this.width);
+        celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        while(celula.CellType!= Cell.Story.EMPTY)
+        {
+            i=rand.nextInt(this.lenght);
+            j=rand.nextInt(this.width);
+           celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        }
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Shop()));
+        i=rand.nextInt(this.lenght);
+        j=rand.nextInt(this.width);
+        celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        while(celula.CellType!= Cell.Story.EMPTY)
+        {
+            i=rand.nextInt(this.lenght);
+            j=rand.nextInt(this.width);
+            celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        }
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        i=rand.nextInt(this.lenght);
+        j=rand.nextInt(this.width);
+        celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        while(celula.CellType!= Cell.Story.EMPTY)
+        {
+            i=rand.nextInt(this.lenght);
+            j=rand.nextInt(this.width);
+            celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        }
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        i=rand.nextInt(this.lenght);
+        j=rand.nextInt(this.width);
+        celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        while(celula.CellType!= Cell.Story.EMPTY)
+        {
+            i=rand.nextInt(this.lenght);
+            j=rand.nextInt(this.width);
+            celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        }
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        i=rand.nextInt(this.lenght);
+        j=rand.nextInt(this.width);
+        celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        while(celula.CellType!= Cell.Story.EMPTY)
+        {
+            i=rand.nextInt(this.lenght);
+            j=rand.nextInt(this.width);
+            celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        }
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+
+
+    }
     public void printMap()
     {
         for (int i = 0; i <this.lenght ; i++) {
@@ -80,10 +144,12 @@ private static Grid grid;
         }
     }
 
-    public static Grid generateMap(int Lenght,int Width) {
+    public static Grid generateMap(int Lenght,int Width,int gameType) {
         if (grid == null) grid = new Grid(Lenght,Width);
+       if(gameType==1)
         grid.generateTestMap();
-
+       else
+           grid.generateRandomMap();
         return grid;
     }
     public void goSouth()

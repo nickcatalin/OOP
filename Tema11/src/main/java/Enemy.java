@@ -9,7 +9,7 @@ public Enemy()
    super.CurrentMana =rand.nextInt(30,60);
     super.MaxHealth=70;
     super.MaxMana=70;
-//    super.earthProtection=rand.nextBoolean();
+    //super.earthProtection=rand.nextBoolean();
 //    super.fireProtection=rand.nextBoolean();
 //    super.iceProtection=rand.nextBoolean();
     super.earthProtection=false;

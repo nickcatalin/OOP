@@ -23,7 +23,8 @@ public class Ice extends Spell {
     }
 
     public void visit(Enemy enemy)
-    {
+    {        System.out.println("dfgdfjhgdjhgd");
+
         if(enemy.iceProtection==false)
             enemy.receiveDamage(super.damage);
 

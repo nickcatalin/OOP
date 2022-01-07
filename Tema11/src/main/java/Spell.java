@@ -7,28 +7,15 @@ public abstract class Spell {
         this.damage = damage;
         this.mana =mana;
     }
-    public void visit(Entity entity)
-    {
+    public abstract void visit(Entity entity);
 
-    }
-    public void visit(Warrior warrior)
-    {
+    public abstract void visit(Warrior warrior);
 
-    }
+    public abstract void visit(Rogue rogue);
 
-    public void visit(Rogue rogue)
-    {
-
-    }
-
-    public void visit( Mage mage)
-    {
-
-    }
-
-    public void visit(Enemy enemy)
-    {
+    public abstract void visit( Mage mage);
 
 
-    }
+    public abstract void visit(Enemy enemy);
+
 }
