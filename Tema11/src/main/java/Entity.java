@@ -20,11 +20,17 @@ public abstract class Entity {
     }
 
     // De facut functia pentru folosirea unei abilitati
+    public void accept(Spell spell)
+    {
+    spell.visit(this);
+    }
+
 
     public int useAbility(Spell spell,Entity enemy) {
     if (spell.mana < this.CurrentMana) {
      CurrentMana=CurrentMana-spell.mana;
-      enemy.CurrentHealth = enemy.CurrentHealth - spell.damage;
+      //enemy.accept(spell);
+        spell.visit(enemy);
       return 1;
     }
     return 0;

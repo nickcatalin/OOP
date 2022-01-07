@@ -9,9 +9,12 @@ public Enemy()
    super.CurrentMana =rand.nextInt(30,60);
     super.MaxHealth=70;
     super.MaxMana=70;
-    super.earthProtection=rand.nextBoolean();
-    super.fireProtection=rand.nextBoolean();
-    super.iceProtection=rand.nextBoolean();
+//    super.earthProtection=rand.nextBoolean();
+//    super.fireProtection=rand.nextBoolean();
+//    super.iceProtection=rand.nextBoolean();
+    super.earthProtection=false;
+    super.fireProtection=false;
+    super.iceProtection=false;
     int abilityNumber = rand.nextInt(2,5);
     while(abilityNumber>0)
     {   int randomAbility = rand.nextInt(3);
@@ -29,7 +32,7 @@ public Enemy()
     @Override
     public int getDamage() {
         Random rand = new Random();
-        int sansa50 = rand.nextInt(1);
+        int sansa50 = rand.nextInt(2);
             if(sansa50==1)
                 return 20;
         return 10;
@@ -37,7 +40,7 @@ public Enemy()
     @Override
     public void receiveDamage(int value) {
         Random rand = new Random();
-        int sansa50 = rand.nextInt(1);
+        int sansa50 = rand.nextInt(2);
         if(sansa50==1)
         {
             super.CurrentHealth=super.CurrentHealth-value/2;

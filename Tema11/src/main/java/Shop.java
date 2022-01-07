@@ -22,28 +22,25 @@ public class Shop implements CellElement{
             potionNumber--;
         }
     }
-
-    public Potion getPotion(Character character)
-    {   Scanner in = new Scanner(System.in);
-        int index;
+    public void printPotionList(Character character)
+    {
         System.out.println(" ____________________\n" +
                 "|________Shop________|");
         for(int i=0;i<this.shopPotionList.size();i++)
             System.out.println((i+1)+". "+this.shopPotionList.get(i));
         System.out.println("_____________________");
         System.out.println("Ale tale: "+ character.Character_Inventory.potionList);
-        index=in.nextInt();
+    }
+    public Potion getPotion(int index)
+    {
         Potion potion = this.shopPotionList.get(index-1);
 
-    if (potion.potionPrice() < character.Character_Inventory.Coins
-        && character.Character_Inventory.remainingInventorySpace() > 0) {
-      character.Character_Inventory.Coins =
-          character.Character_Inventory.Coins - potion.potionPrice();
-      this.shopPotionList.remove(index - 1);
       return potion;
 }
-    return null;
-    }
+public void boughtPotion(int index)
+{
+    this.shopPotionList.remove(index-1);
+}
 
     @Override
     public String toCharacter() {

@@ -22,5 +22,16 @@ public abstract class Character extends Entity {
        return this.profession+" "+ this.name + " "+ this.level + " "+ this.experience;
   }
   // metoda pentru cumpararea
+    public int testCoinsPotion(Potion potion)
+    {
+        if (potion.potionPrice() < this.Character_Inventory.Coins
+                && this.Character_Inventory.remainingInventorySpace() > 0) {
+            this.Character_Inventory.Coins =
+                    this.Character_Inventory.Coins - potion.potionPrice();
+            this.Character_Inventory.addPotion(potion);
+            return 1;
 
+    }
+        return 0;
+    }
 }

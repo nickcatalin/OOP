@@ -162,8 +162,10 @@ return null;
     }
     Scanner in = new Scanner(System.in);
     int contAles=in.nextInt();
+   // in.close();
     return contCurent.allAccountCharactes.get(contAles-1);
   }
+
   private void showInventory(Character caracterCurent)
   {
     System.out.println(" ____________________\n" +
@@ -173,15 +175,71 @@ return null;
     System.out.println((caracterCurent.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
     System.out.println("_____________________");
     Scanner in = new Scanner(System.in);
-    int alegere=in.nextInt();
+    int alegere = in.nextInt();
     if(alegere==caracterCurent.Character_Inventory.potionList.size()+1)
       return;
 
     Potion potion = caracterCurent.Character_Inventory.potionList.get(alegere-1);
-    caracterCurent.Character_Inventory.potionList.remove(alegere-1);
+    caracterCurent.Character_Inventory.removePotion(alegere-1);
     System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
     potion.usePotion(caracterCurent);
     System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
+
+  }
+
+  public void thefight(Character caracterCurent,Enemy enemy)
+  {
+    System.out.println(
+        "\n" + " O       /\\___/\\\n" + "/|\\/     \\(o o)/\n" + "/ \\       \\VWV/\n");
+    int tura=0,alegere;
+    Random rand = new Random();
+    Scanner in = new Scanner(System.in);
+    while(caracterCurent.CurrentHealth>0&&enemy.CurrentHealth>0)
+    {
+      System.out.println(caracterCurent.CurrentHealth+"     "+caracterCurent.CurrentMana+"   "+enemy.CurrentHealth+"  "+enemy.CurrentMana);
+    if(tura==0)
+    {
+    System.out.println("1. Normal Atack\n2. Ability Atack");
+    alegere=in.nextInt();
+    if(alegere==1)
+    {
+          enemy.CurrentHealth = enemy.CurrentHealth - caracterCurent.getDamage();
+
+    }
+    else
+    {
+      for(int i=0;i<caracterCurent.AbilityList.size();i++)
+        System.out.println((i+1)+". "+ caracterCurent.AbilityList.get(i));
+
+      alegere=in.nextInt();
+      Spell spell=caracterCurent.AbilityList.get(alegere-1);
+      caracterCurent.useAbility(spell,enemy);
+      enemy.useAbility(spell,caracterCurent);
+      spell.visit(enemy);
+
+    }
+    tura=1;
+    }
+    else
+    {
+      if(enemy.AbilityList.size()>0)
+      {   int sansa25=rand.nextInt(100);
+          if(sansa25%4==0)
+          { int abilitateRandom=rand.nextInt(enemy.AbilityList.size());
+            Spell spell=enemy.AbilityList.get(abilitateRandom);
+            enemy.useAbility(spell,caracterCurent);
+          }else {
+           caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
+          }
+
+      }
+
+      tura=0;
+    }
+    }
+    if(caracterCurent.CurrentHealth<=0)
+      System.exit(0);
+
   }
   public void printStories(Character caracterCurent,Grid grid)
   { System.out.println();
@@ -202,6 +260,8 @@ return null;
     {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.ENEMY).size());
       System.out.println(StoriesMap.get(Cell.Story.ENEMY).get(poveste));
+     if(celula.Visited==0)
+      this.thefight(caracterCurent,(Enemy) celula.enemyORshop);
       int sansaMoneda=rand.nextInt(101);
       if(sansaMoneda%5!=0&&celula.Visited==0)
         caracterCurent.Character_Inventory.Coins=caracterCurent.Character_Inventory.Coins+rand.nextInt(35);
@@ -213,10 +273,17 @@ return null;
       Shop magazin= (Shop) celula.enemyORshop;
       System.out.println(StoriesMap.get(Cell.Story.SHOP).get(poveste));
 
+      magazin.printPotionList(caracterCurent);
 
-      Potion potion=magazin.getPotion(caracterCurent);
-      if(potion!=null)
-      caracterCurent.Character_Inventory.addPotion(potion);
+      Scanner in = new Scanner(System.in);
+      int index;
+      index=in.nextInt();
+
+      Potion potion=magazin.getPotion(index);
+      int canBuyPotion=caracterCurent.testCoinsPotion(potion);
+      if (canBuyPotion == 1) {
+      magazin.boughtPotion(index);
+      }
       grid.printMap();
     }
     if(celula.CellType== Cell.Story.FINISH)
@@ -249,7 +316,8 @@ return null;
 
     grid.goEast();
     this.printStories(grid.MyCharacter, grid);
-    this.printStories(grid.MyCharacter, grid);
+   // this.printStories(grid.MyCharacter, grid);
+   // this.printStories(grid.MyCharacter, grid);
     this.showInventory(caracterCurent);
     this.showInventory(caracterCurent);
     grid.goEast();
