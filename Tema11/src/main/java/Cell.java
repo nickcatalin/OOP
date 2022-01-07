@@ -10,7 +10,10 @@ public class Cell {
     Story CellType;
     CellElement enemyORshop;
     int Visited;
-
+    public void setVisited()
+    {
+        this.Visited=1;
+    }
     public Cell(Story Type,int Ox,int Oy){
 
 

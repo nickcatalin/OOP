@@ -20,5 +20,8 @@ public class Inventory {
     {
         return this.maXInventory-this.potionList.size();
     }
-
+    public void printCoins()
+    {
+        System.out.println("Coins: "+this.Coins);
+    }
 }

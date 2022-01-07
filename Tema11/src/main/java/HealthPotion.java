@@ -2,7 +2,7 @@ public class HealthPotion implements Potion {
 
     @Override
     public void usePotion(Character character) {
-        character.CurrentHealth=character.CurrentHealth+this.regenValue();
+        character.healthRegen(this.regenValue());
     }
 
     @Override
@@ -18,5 +18,10 @@ public class HealthPotion implements Potion {
     @Override
     public int potionWeight() {
         return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Health Potion";
     }
 }

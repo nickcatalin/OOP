@@ -3,7 +3,7 @@ public class ManaPotion implements Potion{
 
     @Override
     public void usePotion(Character character) {
-        character.CurrentMana=character.CurrentMana+this.regenValue();
+        character.manaRegen(this.regenValue());
 
     }
 
@@ -21,4 +21,11 @@ public class ManaPotion implements Potion{
     public int potionWeight() {
         return 1;
     }
+
+    @Override
+    public String toString() {
+        return "Mana Potion";
+    }
+
+
 }

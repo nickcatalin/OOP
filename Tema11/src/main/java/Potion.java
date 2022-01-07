@@ -4,4 +4,5 @@ public interface Potion {
      int potionPrice();
      int regenValue();
      int potionWeight();
+     String toString();
 }

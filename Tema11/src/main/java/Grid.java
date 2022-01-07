@@ -49,16 +49,29 @@ private static Grid grid;
 
             for (int j = 0; j <this.width ; j++) {
                 Cell celula= (Cell) ((ArrayList)this.get(i)).get(j);
+
                 if(grid.MyCharacter.Current_Ox==i&&grid.MyCharacter.Current_Oy==j){
-                    System.out.print("P  ");continue;}
+                    System.out.print("P  ");
+                    ((Cell) ((ArrayList)this.get(i)).get(j)).setVisited();
+                continue;}
+
                 if(celula.CellType== Cell.Story.FINISH)
-                    if(celula.Visited==0){
-                        System.out.print("F  ");continue;}
+                    if(celula.Visited==0)
+                        System.out.print("?  ");
+                    else
+                        System.out.print("F  ");
+
+
                 if(celula.CellType== Cell.Story.EMPTY)
-                    if(celula.Visited==0){
-                    System.out.print("N  ");continue;}
+                    if(celula.Visited==0)
+                        System.out.print("?  ");
+                    else
+                        System.out.print("N  ");
+
                 if(celula.CellType== Cell.Story.SHOP||celula.CellType== Cell.Story.ENEMY)
                     if(celula.Visited==0)
+                        System.out.print("?  ");
+                    else
                         System.out.print(celula.enemyORshop.toCharacter());
 
             }
@@ -76,28 +89,28 @@ private static Grid grid;
     public void goSouth()
     {
     if (this.MyCharacter.Current_Ox == this.lenght - 1) {
-      System.out.println("Cazi de pe harta");
+      System.out.println("Cazi de pe harta\n");
             return;}
     this.MyCharacter.Current_Ox++;
     }
     public void goNorth()
     {
         if (this.MyCharacter.Current_Ox == 0) {
-            System.out.println("Cazi de pe harta");
+            System.out.println("Cazi de pe harta\n");
             return;}
         this.MyCharacter.Current_Ox--;
     }
     public void goEast()
     {
         if (this.MyCharacter.Current_Oy == this.width - 1) {
-            System.out.println("Cazi de pe harta");
+            System.out.println("Cazi de pe harta\n");
             return;}
         this.MyCharacter.Current_Oy++;
     }
     public void goWest()
     {
         if (this.MyCharacter.Current_Ox == 0) {
-            System.out.println("Cazi de pe harta");
+            System.out.println("Cazi de pe harta\n");
             return;}
         this.MyCharacter.Current_Oy--;
     }

@@ -83,6 +83,7 @@ public class Game {
     e.printStackTrace();
   }
   }
+
   private void readStories()
   {
     JSONParser parser = new JSONParser();
@@ -163,6 +164,71 @@ return null;
     int contAles=in.nextInt();
     return contCurent.allAccountCharactes.get(contAles-1);
   }
+  private void showInventory(Character caracterCurent)
+  {
+    System.out.println(" ____________________\n" +
+            "|______Inventory______|");
+    for(int i=0;i<caracterCurent.Character_Inventory.potionList.size();i++)
+      System.out.println((i+1)+". "+caracterCurent.Character_Inventory.potionList.get(i));
+    System.out.println((caracterCurent.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
+    System.out.println("_____________________");
+    Scanner in = new Scanner(System.in);
+    int alegere=in.nextInt();
+    if(alegere==caracterCurent.Character_Inventory.potionList.size()+1)
+      return;
+
+    Potion potion = caracterCurent.Character_Inventory.potionList.get(alegere-1);
+    caracterCurent.Character_Inventory.potionList.remove(alegere-1);
+    System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
+    potion.usePotion(caracterCurent);
+    System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
+  }
+  public void printStories(Character caracterCurent,Grid grid)
+  { System.out.println();
+    caracterCurent.Character_Inventory.printCoins();
+    Random rand = new Random();
+    Cell celula= (Cell) ((ArrayList)grid.get(caracterCurent.Current_Ox)).get(caracterCurent.Current_Oy);
+    int poveste;
+    if(celula.CellType== Cell.Story.EMPTY)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.EMPTY).size());
+      int sansaMoneda=rand.nextInt(101);
+      if(sansaMoneda%5==0&&celula.Visited==0)
+        caracterCurent.Character_Inventory.Coins=caracterCurent.Character_Inventory.Coins+rand.nextInt(15);
+      System.out.println(StoriesMap.get(Cell.Story.EMPTY).get(poveste));
+      grid.printMap();
+    }
+    if(celula.CellType== Cell.Story.ENEMY)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.ENEMY).size());
+      System.out.println(StoriesMap.get(Cell.Story.ENEMY).get(poveste));
+      int sansaMoneda=rand.nextInt(101);
+      if(sansaMoneda%5!=0&&celula.Visited==0)
+        caracterCurent.Character_Inventory.Coins=caracterCurent.Character_Inventory.Coins+rand.nextInt(35);
+      grid.printMap();
+    }
+    if(celula.CellType== Cell.Story.SHOP)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
+      Shop magazin= (Shop) celula.enemyORshop;
+      System.out.println(StoriesMap.get(Cell.Story.SHOP).get(poveste));
+
+
+      Potion potion=magazin.getPotion(caracterCurent);
+      if(potion!=null)
+      caracterCurent.Character_Inventory.addPotion(potion);
+      grid.printMap();
+    }
+    if(celula.CellType== Cell.Story.FINISH)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.FINISH).size());
+      System.out.println(StoriesMap.get(Cell.Story.FINISH).get(poveste));
+      grid.printMap();
+      System.exit(0);
+    }
+
+  }
+
   public void run() {
     this.readAccounts();
     this.readStories();
@@ -173,20 +239,34 @@ return null;
     Grid grid=Grid.generateMap(5,5);
     grid.MyCharacter=caracterCurent;
     grid.printMap();
-    System.out.println();
-    grid.goNorth();
-    grid.printMap();
-    System.out.println();
-    grid.goSouth();
-    grid.printMap();
-    System.out.println();
-    grid.goEast();
-    grid.printMap();
-    System.out.println();
-    grid.goEast();
-    grid.printMap();
-    System.out.println();
+    this.printStories(grid.MyCharacter, grid);
 
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);
+    this.showInventory(caracterCurent);
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);
+    this.printStories(grid.MyCharacter, grid);
+    this.showInventory(caracterCurent);
+    this.showInventory(caracterCurent);
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid);
+
+
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid);
 
 
   }

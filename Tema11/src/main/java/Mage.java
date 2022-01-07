@@ -34,17 +34,9 @@ public class Mage extends Character{
             abilityNumber--;
         }
         super.Character_Inventory=new Inventory();
-        super.Character_Inventory.Coins=rand.nextInt(50);
-        int potionNumber = rand.nextInt(1,3);
-        while(potionNumber>0)
-        {   int randomPotion = rand.nextInt(2);
-            if(randomPotion==0)
-                super.Character_Inventory.addPotion(new ManaPotion());
-            if(randomPotion==1)
-                super.Character_Inventory.addPotion(new HealthPotion());
-            potionNumber--;
-        }
-        Character_Inventory.maXInventory=10;
+        super.Character_Inventory.Coins=rand.nextInt(50,100);
+
+        super.Character_Inventory.maXInventory=10;
     }
 
 
