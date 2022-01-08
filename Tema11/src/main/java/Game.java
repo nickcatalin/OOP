@@ -181,9 +181,9 @@ public class Game {
 
     Potion potion = caracterCurent.Character_Inventory.potionList.get(alegere-1);
     caracterCurent.Character_Inventory.removePotion(alegere-1);
-    System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
+   // System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
     potion.usePotion(caracterCurent);
-    System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
+   // System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
 
   }
 
@@ -196,33 +196,45 @@ public class Game {
     Scanner in = new Scanner(System.in);
     while(caracterCurent.CurrentHealth>0&&enemy.CurrentHealth>0)
     {
-      System.out.println(caracterCurent.CurrentHealth+"     "+caracterCurent.CurrentMana+"   "+enemy.CurrentHealth+"  "+enemy.CurrentMana);
+
       if(tura==0)
-      {
-        System.out.println("1. Normal Atack\n2. Ability Atack");
+      { System.out.println("Character's turn");
+        System.out.println("Character -> health: "+caracterCurent.CurrentHealth+"  mana: "+caracterCurent.CurrentMana+"\nEnemy -> health: "+enemy.CurrentHealth+"  mana: "+enemy.CurrentMana);
+        System.out.println("1. Normal Atack\n2. Ability Atack\n3. Open Inventory");
+
         alegere=in.nextInt();
         if(alegere==1)
         {
           enemy.CurrentHealth = enemy.CurrentHealth - caracterCurent.getDamage();
 
         }
-        else
+        else if(alegere==2)
         {
           for(int i=0;i<caracterCurent.AbilityList.size();i++)
             System.out.println((i+1)+". "+ caracterCurent.AbilityList.get(i));
-
+          System.out.println((caracterCurent.AbilityList.size()+1)+". Folosesti atac NORMAL");
           alegere=in.nextInt();
-          Spell spell=caracterCurent.AbilityList.get(alegere-1);
-          caracterCurent.AbilityList.remove(alegere-1);
-          caracterCurent.useAbility(spell,enemy);
-          enemy.useAbility(spell,caracterCurent);
-          spell.visit(enemy);
+          if(alegere==caracterCurent.AbilityList.size()+1)
+          {
+            enemy.CurrentHealth = enemy.CurrentHealth - caracterCurent.getDamage();
+          } else {
+            Spell spell = caracterCurent.AbilityList.get(alegere - 1);
+            caracterCurent.AbilityList.remove(alegere - 1);
+            caracterCurent.useAbility(spell, enemy);
+            enemy.useAbility(spell, caracterCurent);
+            spell.visit(enemy);
+}
+        }else if(alegere==3)
+        {
+          this.showInventory(caracterCurent);
 
         }
         tura=1;
+
       }
       else
-      {
+      { System.out.println("Enemy's turn");
+        System.out.println("Character -> health: "+caracterCurent.CurrentHealth+"  mana: "+caracterCurent.CurrentMana+"\nEnemy -> health: "+enemy.CurrentHealth+"  mana: "+enemy.CurrentMana);
         if(enemy.AbilityList.size()>0)
         {   int sansa25=rand.nextInt(100);
           if(sansa25%4==0)
@@ -255,9 +267,12 @@ public class Game {
     {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.EMPTY).size());
       int sansaMoneda=rand.nextInt(101);
-      if(sansaMoneda%5==0&&celula.Visited==0)
-        caracterCurent.Character_Inventory.Coins=caracterCurent.Character_Inventory.Coins+rand.nextInt(15);
-      System.out.println(StoriesMap.get(Cell.Story.EMPTY).get(poveste));
+      if(sansaMoneda%5==0&&celula.Visited==0){
+        int banuti=rand.nextInt(1,15);
+        caracterCurent.Character_Inventory.Coins =
+                caracterCurent.Character_Inventory.Coins +banuti;
+        System.out.println("Ai gasit "+banuti+" banuti prin nisipul argintiu!");
+      }
       grid.printMap();
     }
     if(celula.CellType== Cell.Story.ENEMY)
@@ -267,8 +282,12 @@ public class Game {
       if(celula.Visited==0)
         this.thefight(caracterCurent,(Enemy) celula.enemyORshop);
       int sansaMoneda=rand.nextInt(101);
-      if(sansaMoneda%5!=0&&celula.Visited==0)
-        caracterCurent.Character_Inventory.Coins=caracterCurent.Character_Inventory.Coins+rand.nextInt(35);
+      if (sansaMoneda % 5 != 0 && celula.Visited == 0) {
+        int banuti=rand.nextInt(1,35);
+        caracterCurent.Character_Inventory.Coins =
+            caracterCurent.Character_Inventory.Coins +banuti;
+     System.out.println("Ai castigat "+banuti+" banuti pentru invingerea inamicului!");
+      }
       grid.printMap();
     }
     if(celula.CellType== Cell.Story.SHOP)
@@ -276,17 +295,20 @@ public class Game {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
       Shop magazin= (Shop) celula.enemyORshop;
       System.out.println(StoriesMap.get(Cell.Story.SHOP).get(poveste));
-
-      magazin.printPotionList(caracterCurent);
-
       Scanner in = new Scanner(System.in);
       int index;
-      index=in.nextInt();
 
+      while(true){
+        magazin.printPotionList(caracterCurent);
+        System.out.println((magazin.shopPotionList.size()+1)+". Ca sa iesi din Shop");
+        index=in.nextInt();
+        if(index==magazin.shopPotionList.size()+1)
+          break;
       Potion potion=magazin.getPotion(index);
       int canBuyPotion=caracterCurent.testCoinsPotion(potion);
       if (canBuyPotion == 1) {
         magazin.boughtPotion(index);
+      }
       }
       grid.printMap();
     }
@@ -295,67 +317,101 @@ public class Game {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.FINISH).size());
       System.out.println(StoriesMap.get(Cell.Story.FINISH).get(poveste));
       grid.printMap();
+      System.out.println(
+          "\n"
+              + "    _    _                 _    _              _     _  _  _  _ \n"
+              + "   /_\\  (_)  __  __ _  ___| |_ (_) __ _  __ _ | |_  | || || || |\n"
+              + "  / _ \\ | | / _|/ _` |(_-<|  _|| |/ _` |/ _` ||  _| |_||_||_||_|\n"
+              + " /_/ \\_\\|_| \\__|\\__,_|/__/ \\__||_|\\__, |\\__,_| \\__| (_)(_)(_)(_)\n"
+              + "                                  |___/                         \n");
       System.exit(0);
     }
 
   }
   public void testHarcodat(Grid grid, Character caracterCurent)
   {
+  //Se duce la dreapta de 3 ori
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);
 
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goEast();
+    this.printStories(grid.MyCharacter, grid);// cumpara o pot de viata si de mana
+                                                // TREBUIE SA FACI O ALTA FUNCTIE PENTRU SHOP IN CARE SA TE INTREBI DACA E HARDCODAT SAU NU
+
+    grid.goEast(); // inca una la dreapta
+    this.printStories(grid.MyCharacter, grid);
+
+    // de 3 ori in jos
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid);
+
+    grid.goSouth();
+    this.printStories(grid.MyCharacter, grid); // da de inamic
+
+
+    grid.goSouth(); // inca una in jos
+    this.printStories(grid.MyCharacter, grid); // finish
+  }
+  public void testNormal(Grid grid, Character caracterCurent)
+  {       Scanner in = new Scanner(System.in);
+          int optiune;
+
+    while (true)
+    { this.printStories(grid.MyCharacter, grid);
+      System.out.println("1. Go East   2. Go West\n3. Go North   4. Go South");
+      optiune=in.nextInt();
+      if(optiune==1)
+      {int i=grid.goEast();
+        if(i==0)
+          continue;
+      }
+      if(optiune==2)
+      {int i=grid.goWest();
+        if(i==0)
+          continue;
+      }
+      if(optiune==3)
+      {int i=grid.goNorth();
+        if(i==0)
+          continue;
+      }
+      if(optiune==4)
+      {int i=grid.goSouth();
+        if(i==0)
+          continue;
+      }
+
+
+    }
   }
   public void run(int index) {
     this.readAccounts();
     this.readStories();
-    Account contCurent=this.testLogin();
 
-    Character caracterCurent=this.printAccountCharacters(contCurent);
-    System.out.println(caracterCurent);
     Grid grid=Grid.generateMap(5,5, index);
-    grid.MyCharacter=caracterCurent;
-    grid.printMap();
-    this.printStories(grid.MyCharacter, grid);
-
-    grid.goEast();
-    this.printStories(grid.MyCharacter, grid);
-   // this.showInventory(caracterCurent);
-    grid.goEast();
-    this.printStories(grid.MyCharacter, grid);
-
-    grid.goEast();
-    this.printStories(grid.MyCharacter, grid);
-    // this.printStories(grid.MyCharacter, grid);
-    // this.printStories(grid.MyCharacter, grid);
-    //  this.showInventory(caracterCurent);
-    // this.showInventory(caracterCurent);
-    grid.goEast();
-    this.printStories(grid.MyCharacter, grid);
-
-    grid.goSouth();
-    this.printStories(grid.MyCharacter, grid);
-
-    grid.goSouth();
-    this.printStories(grid.MyCharacter, grid);
-
-    grid.goSouth();
-    this.printStories(grid.MyCharacter, grid);
 
 
-    grid.goSouth();
-    this.printStories(grid.MyCharacter, grid);
+    if(index==1)
+    { grid.MyCharacter=this.accountsList.get(0).allAccountCharactes.get(0);
+      this.testHarcodat(grid,this.accountsList.get(0).allAccountCharactes.get(0));
 
-
-  }
-  public void print() {
-
-    for(Object i: accountsList)
-    {
-      Account test=(Account) i;
-
-      System.out.println(test.allAccountCharactes);
-
+    }
+    else
+    {Account contCurent=this.testLogin();
+     Character caracterCurent=this.printAccountCharacters(contCurent);
+     System.out.println(caracterCurent);
+      grid.MyCharacter=caracterCurent;
+      this.testNormal(grid,caracterCurent);
     }
 
   }
+
 
   public static Game getInstance() {
     if (game == null) game = new Game();

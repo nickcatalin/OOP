@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
 public class Test {
   public static void main(String[] args) {
     Game game = Game.getInstance();
-    int index=1;
+    int index=2;
     game.run(index);
     //game.print();
 

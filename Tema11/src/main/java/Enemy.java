@@ -12,7 +12,9 @@ public Enemy()
     super.earthProtection=rand.nextBoolean();
     super.fireProtection=rand.nextBoolean();
     super.iceProtection=rand.nextBoolean();
-
+//    super.earthProtection=false;
+// super.fireProtection=false;
+//    super.iceProtection=false;
     int abilityNumber = rand.nextInt(2,5);
     while(abilityNumber>0)
     {   int randomAbility = rand.nextInt(3);

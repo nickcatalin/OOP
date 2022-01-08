@@ -51,9 +51,18 @@ private static Grid grid;
         Cell celula;
         int i,j;
         i=rand.nextInt(this.lenght);
-        System.out.println(i);
         j=rand.nextInt(this.width);
         ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Shop()));
+        i=rand.nextInt(this.lenght);
+        j=rand.nextInt(this.width);
+        celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        while(celula.CellType!= Cell.Story.EMPTY)
+        {
+            i=rand.nextInt(this.lenght);
+            j=rand.nextInt(this.width);
+            celula= (Cell) ((ArrayList)this.get(i)).get(j);
+        }
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.FINISH, i, j));
         i=rand.nextInt(this.lenght);
         j=rand.nextInt(this.width);
         celula= (Cell) ((ArrayList)this.get(i)).get(j);
@@ -73,7 +82,7 @@ private static Grid grid;
             j=rand.nextInt(this.width);
             celula= (Cell) ((ArrayList)this.get(i)).get(j);
         }
-        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.ENEMY, i, j, new Enemy()));
         i=rand.nextInt(this.lenght);
         j=rand.nextInt(this.width);
         celula= (Cell) ((ArrayList)this.get(i)).get(j);
@@ -83,7 +92,7 @@ private static Grid grid;
             j=rand.nextInt(this.width);
             celula= (Cell) ((ArrayList)this.get(i)).get(j);
         }
-        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.ENEMY, i, j, new Enemy()));
         i=rand.nextInt(this.lenght);
         j=rand.nextInt(this.width);
         celula= (Cell) ((ArrayList)this.get(i)).get(j);
@@ -93,7 +102,7 @@ private static Grid grid;
             j=rand.nextInt(this.width);
             celula= (Cell) ((ArrayList)this.get(i)).get(j);
         }
-        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.ENEMY, i, j, new Enemy()));
         i=rand.nextInt(this.lenght);
         j=rand.nextInt(this.width);
         celula= (Cell) ((ArrayList)this.get(i)).get(j);
@@ -103,7 +112,7 @@ private static Grid grid;
             j=rand.nextInt(this.width);
             celula= (Cell) ((ArrayList)this.get(i)).get(j);
         }
-        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.SHOP, i, j, new Enemy()));
+        ((ArrayList) this.get(i)).set(j, new Cell(Cell.Story.ENEMY, i, j, new Enemy()));
 
 
     }
@@ -146,38 +155,42 @@ private static Grid grid;
 
     public static Grid generateMap(int Lenght,int Width,int gameType) {
         if (grid == null) grid = new Grid(Lenght,Width);
-       if(gameType==1)
+       if(gameType==2)
         grid.generateTestMap();
        else
            grid.generateRandomMap();
         return grid;
     }
-    public void goSouth()
+    public int goSouth()
     {
     if (this.MyCharacter.Current_Ox == this.lenght - 1) {
       System.out.println("Cazi de pe harta\n");
-            return;}
+            return 0;}
     this.MyCharacter.Current_Ox++;
+        return 1;
     }
-    public void goNorth()
+    public int goNorth()
     {
         if (this.MyCharacter.Current_Ox == 0) {
             System.out.println("Cazi de pe harta\n");
-            return;}
+            return 0;}
         this.MyCharacter.Current_Ox--;
+        return 1;
     }
-    public void goEast()
+    public int goEast()
     {
         if (this.MyCharacter.Current_Oy == this.width - 1) {
             System.out.println("Cazi de pe harta\n");
-            return;}
+            return 0;}
         this.MyCharacter.Current_Oy++;
+        return 1;
     }
-    public void goWest()
+    public int goWest()
     {
         if (this.MyCharacter.Current_Ox == 0) {
             System.out.println("Cazi de pe harta\n");
-            return;}
+            return 0;}
         this.MyCharacter.Current_Oy--;
+        return 1;
     }
 }

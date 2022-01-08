@@ -40,8 +40,6 @@ public class Rogue extends Character{
     }
 
 
-
-
     public void receiveDamage(int value)
     {
 

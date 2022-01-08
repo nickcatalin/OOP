@@ -24,8 +24,7 @@ public class Earth extends Spell{
     }
 
     public void visit(Enemy enemy)
-    {        System.out.println("dfgdfjhgdjhgd");
-
+    {
         if(enemy.earthProtection==false)
             enemy.receiveDamage(super.damage);
 
