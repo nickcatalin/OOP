@@ -29,4 +29,7 @@ public class Fire extends Spell{
         enemy.receiveDamage(super.damage);
 
     }
+    public String toString() {
+        return "Fire";
+    }
 }

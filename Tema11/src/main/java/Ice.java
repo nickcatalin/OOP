@@ -28,4 +28,7 @@ public class Ice extends Spell {
             enemy.receiveDamage(super.damage);
 
     }
+    public String toString() {
+        return "Ice";
+    }
 }

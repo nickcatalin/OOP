@@ -330,7 +330,8 @@ public class Game {
   }
   public void testHarcodat(Grid grid, Character caracterCurent)
   {
-  //Se duce la dreapta de 3 ori
+    this.printStories(grid.MyCharacter, grid);
+    //Se duce la dreapta de 3 ori
     grid.goEast();
     this.printStories(grid.MyCharacter, grid);
 
@@ -338,9 +339,9 @@ public class Game {
     this.printStories(grid.MyCharacter, grid);
 
     grid.goEast();
-    this.printStories(grid.MyCharacter, grid);// cumpara o pot de viata si de mana
+   // this.printStories(grid.MyCharacter, grid);// cumpara o pot de viata si de mana
                                                 // TREBUIE SA FACI O ALTA FUNCTIE PENTRU SHOP IN CARE SA TE INTREBI DACA E HARDCODAT SAU NU
-
+    this.printStoriesHarcodat(grid,caracterCurent,0);
     grid.goEast(); // inca una la dreapta
     this.printStories(grid.MyCharacter, grid);
 
@@ -390,6 +391,86 @@ public class Game {
 
     }
   }
+  public void printStoriesHarcodat(Grid grid,Character caracterCurent,int comanda)
+  {
+    System.out.println();
+    caracterCurent.Character_Inventory.printCoins();
+    Random rand = new Random();
+    Cell celula= (Cell) ((ArrayList)grid.get(caracterCurent.Current_Ox)).get(caracterCurent.Current_Oy);
+    int poveste;
+    if(celula.CellType== Cell.Story.EMPTY)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.EMPTY).size());
+      int sansaMoneda=rand.nextInt(101);
+      if(sansaMoneda%5==0&&celula.Visited==0){
+        int banuti=rand.nextInt(1,15);
+        caracterCurent.Character_Inventory.Coins =
+                caracterCurent.Character_Inventory.Coins +banuti;
+        System.out.println("Ai gasit "+banuti+" banuti prin nisipul argintiu!");
+      }
+      grid.printMap();
+    }
+    if(celula.CellType== Cell.Story.ENEMY)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.ENEMY).size());
+      System.out.println(StoriesMap.get(Cell.Story.ENEMY).get(poveste));
+      if(celula.Visited==0)
+        this.thefight(caracterCurent,(Enemy) celula.enemyORshop);
+      int sansaMoneda=rand.nextInt(101);
+      if (sansaMoneda % 5 != 0 && celula.Visited == 0) {
+        int banuti=rand.nextInt(1,35);
+        caracterCurent.Character_Inventory.Coins =
+                caracterCurent.Character_Inventory.Coins +banuti;
+        System.out.println("Ai castigat "+banuti+" banuti pentru invingerea inamicului!");
+      }
+      grid.printMap();
+    }
+    if(celula.CellType== Cell.Story.SHOP)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
+      Shop magazin= (Shop) celula.enemyORshop;
+      System.out.println(StoriesMap.get(Cell.Story.SHOP).get(poveste));
+      Scanner in = new Scanner(System.in);
+      int index;
+      int i=0;
+      while(true){
+        if(i==2)
+        {break;}
+        magazin.printPotionList(caracterCurent);
+        System.out.println((magazin.shopPotionList.size()+1)+". Ca sa iesi din Shop");
+        index=1;
+
+        if(index==magazin.shopPotionList.size()+1)
+          break;
+
+        Potion potion=magazin.getPotion(index);
+        int canBuyPotion=caracterCurent.testCoinsPotion(potion);
+        if (canBuyPotion == 1) {
+          magazin.boughtPotion(index);
+        }
+        i++;
+
+
+        System.out.println(index);
+      }
+      grid.printMap();
+    }
+    if(celula.CellType== Cell.Story.FINISH)
+    {
+      poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.FINISH).size());
+      System.out.println(StoriesMap.get(Cell.Story.FINISH).get(poveste));
+      grid.printMap();
+      System.out.println(
+              "\n"
+                      + "    _    _                 _    _              _     _  _  _  _ \n"
+                      + "   /_\\  (_)  __  __ _  ___| |_ (_) __ _  __ _ | |_  | || || || |\n"
+                      + "  / _ \\ | | / _|/ _` |(_-<|  _|| |/ _` |/ _` ||  _| |_||_||_||_|\n"
+                      + " /_/ \\_\\|_| \\__|\\__,_|/__/ \\__||_|\\__, |\\__,_| \\__| (_)(_)(_)(_)\n"
+                      + "                                  |___/                         \n");
+      System.exit(0);
+    }
+
+  }
   public void run(int index) {
     this.readAccounts();
     this.readStories();
@@ -397,7 +478,7 @@ public class Game {
     Grid grid=Grid.generateMap(5,5, index);
 
 
-    if(index==1)
+    if(index==2)
     { grid.MyCharacter=this.accountsList.get(0).allAccountCharactes.get(0);
       this.testHarcodat(grid,this.accountsList.get(0).allAccountCharactes.get(0));
 

@@ -29,4 +29,7 @@ public class Earth extends Spell{
             enemy.receiveDamage(super.damage);
 
     }
+    public String toString() {
+        return "Earth";
+    }
 }
