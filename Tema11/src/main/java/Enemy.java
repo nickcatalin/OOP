@@ -9,12 +9,10 @@ public Enemy()
    super.CurrentMana =rand.nextInt(30,60);
     super.MaxHealth=70;
     super.MaxMana=70;
-    //super.earthProtection=rand.nextBoolean();
-//    super.fireProtection=rand.nextBoolean();
-//    super.iceProtection=rand.nextBoolean();
-    super.earthProtection=false;
-    super.fireProtection=false;
-    super.iceProtection=false;
+    super.earthProtection=rand.nextBoolean();
+    super.fireProtection=rand.nextBoolean();
+    super.iceProtection=rand.nextBoolean();
+
     int abilityNumber = rand.nextInt(2,5);
     while(abilityNumber>0)
     {   int randomAbility = rand.nextInt(3);

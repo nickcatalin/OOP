@@ -213,6 +213,7 @@ public class Game {
 
           alegere=in.nextInt();
           Spell spell=caracterCurent.AbilityList.get(alegere-1);
+          caracterCurent.AbilityList.remove(alegere-1);
           caracterCurent.useAbility(spell,enemy);
           enemy.useAbility(spell,caracterCurent);
           spell.visit(enemy);
@@ -227,11 +228,14 @@ public class Game {
           if(sansa25%4==0)
           { int abilitateRandom=rand.nextInt(enemy.AbilityList.size());
             Spell spell=enemy.AbilityList.get(abilitateRandom);
+            enemy.AbilityList.get(abilitateRandom);
             enemy.useAbility(spell,caracterCurent);
           }else {
             caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
           }
 
+        }else {
+          caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
         }
 
         tura=0;
@@ -295,7 +299,10 @@ public class Game {
     }
 
   }
+  public void testHarcodat(Grid grid, Character caracterCurent)
+  {
 
+  }
   public void run(int index) {
     this.readAccounts();
     this.readStories();
@@ -318,8 +325,8 @@ public class Game {
     this.printStories(grid.MyCharacter, grid);
     // this.printStories(grid.MyCharacter, grid);
     // this.printStories(grid.MyCharacter, grid);
-  //  this.showInventory(caracterCurent);
-   // this.showInventory(caracterCurent);
+    //  this.showInventory(caracterCurent);
+    // this.showInventory(caracterCurent);
     grid.goEast();
     this.printStories(grid.MyCharacter, grid);
 
