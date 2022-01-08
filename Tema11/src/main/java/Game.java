@@ -266,6 +266,7 @@ public class Game {
     if(celula.CellType== Cell.Story.EMPTY)
     {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.EMPTY).size());
+      System.out.println(StoriesMap.get(Cell.Story.EMPTY).get(poveste));
       int sansaMoneda=rand.nextInt(101);
       if(sansaMoneda%5==0&&celula.Visited==0){
         int banuti=rand.nextInt(1,15);
@@ -401,6 +402,7 @@ public class Game {
     if(celula.CellType== Cell.Story.EMPTY)
     {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.EMPTY).size());
+      System.out.println(StoriesMap.get(Cell.Story.EMPTY).get(poveste));
       int sansaMoneda=rand.nextInt(101);
       if(sansaMoneda%5==0&&celula.Visited==0){
         int banuti=rand.nextInt(1,15);
