@@ -166,42 +166,42 @@ public class Game {
     return  currentCharacter.allAccountCharactes.get(chosenAccount-1);
   }
 
-  private void showInventory(Character caracterCurent)
+  private void showInventory(Character currentCharacter)
   {
     System.out.println(" ____________________\n" +
             "|______Inventory______|");
-    for(int i=0;i<caracterCurent.Character_Inventory.potionList.size();i++)
-      System.out.println((i+1)+". "+caracterCurent.Character_Inventory.potionList.get(i));
-    System.out.println((caracterCurent.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
+    for(int i=0;i<currentCharacter.Character_Inventory.potionList.size();i++)
+      System.out.println((i+1)+". "+currentCharacter.Character_Inventory.potionList.get(i));
+    System.out.println((currentCharacter.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
     System.out.println("_____________________");
     Scanner in = new Scanner(System.in);
-    int alegere = in.nextInt();
-    if(alegere==caracterCurent.Character_Inventory.potionList.size()+1)
+    int i = in.nextInt();
+    if(i==currentCharacter.Character_Inventory.potionList.size()+1)
       return;
 
-    Potion potion = caracterCurent.Character_Inventory.potionList.get(alegere-1);
-    caracterCurent.Character_Inventory.removePotion(alegere-1);
-   // System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
-    potion.usePotion(caracterCurent);
-   // System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
+    Potion potion = currentCharacter.Character_Inventory.potionList.get(i-1);
+    currentCharacter.Character_Inventory.removePotion(i-1);
+
+    potion.usePotion(currentCharacter);
+
 
   }
-  private void showInventoryHarcodat(Character caracterCurent)
+  private void showInventoryHarcodat(Character currentCharacter)
   {
     System.out.println(" ____________________\n" +
             "|______Inventory______|");
-    for(int i=0;i<caracterCurent.Character_Inventory.potionList.size();i++)
-      System.out.println((i+1)+". "+caracterCurent.Character_Inventory.potionList.get(i));
-    System.out.println((caracterCurent.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
+    for(int i=0;i<currentCharacter.Character_Inventory.potionList.size();i++)
+      System.out.println((i+1)+". "+currentCharacter.Character_Inventory.potionList.get(i));
+    System.out.println((currentCharacter.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
     System.out.println("_____________________");
 
     int alegere = 1;
-    if(alegere==caracterCurent.Character_Inventory.potionList.size()+1)
+    if(alegere==currentCharacter.Character_Inventory.potionList.size()+1)
       return;
 
-    Potion potion = caracterCurent.Character_Inventory.potionList.get(alegere-1);
-    caracterCurent.Character_Inventory.removePotion(alegere-1);
-    potion.usePotion(caracterCurent);
+    Potion potion = currentCharacter.Character_Inventory.potionList.get(alegere-1);
+    currentCharacter.Character_Inventory.removePotion(alegere-1);
+    potion.usePotion(currentCharacter);
 
 
   }
@@ -231,11 +231,12 @@ public class Game {
           for(int i=0;i<caracterCurent.AbilityList.size();i++)
             System.out.println((i+1)+". "+ caracterCurent.AbilityList.get(i));
           System.out.println((caracterCurent.AbilityList.size()+1)+". Folosesti atac NORMAL");
-
+          System.out.println("1");
             Spell spell = caracterCurent.AbilityList.get(0);
-            caracterCurent.AbilityList.remove(0);
-            System.out.println("1");
+          if (caracterCurent.useAbility(spell) == 1) {
             enemy.accept(spell);
+            caracterCurent.AbilityList.remove(0);
+            }
           alegere=3;
 
         }else if(alegere==3)
@@ -259,10 +260,11 @@ public class Game {
           { int abilitateRandom=rand.nextInt(enemy.AbilityList.size());
             System.out.println(enemy.AbilityList);
             Spell spell=enemy.AbilityList.get(abilitateRandom);
-            enemy.AbilityList.remove(abilitateRandom);
+            if (enemy.useAbility(spell) == 1) {
+              enemy.AbilityList.remove(abilitateRandom);
 
-            caracterCurent.accept(spell);
-
+              caracterCurent.accept(spell);
+}
           }else {
             caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
           }
@@ -310,10 +312,11 @@ public class Game {
             enemy.CurrentHealth = enemy.CurrentHealth - caracterCurent.getDamage();
           } else {
             Spell spell = caracterCurent.AbilityList.get(alegere - 1);
+            if(caracterCurent.useAbility(spell)==1){
             caracterCurent.AbilityList.remove(alegere - 1);
-            //caracterCurent.useAbility(spell, enemy);
-      enemy.accept(spell);
 
+      enemy.accept(spell);
+}
 }
         }else if(alegere==3)
         {
@@ -332,10 +335,11 @@ public class Game {
           { int abilitateRandom=rand.nextInt(enemy.AbilityList.size());
             System.out.println(enemy.AbilityList);
             Spell spell=enemy.AbilityList.get(abilitateRandom);
-            enemy.AbilityList.remove(abilitateRandom);
+            if (enemy.useAbility(spell) == 1) {
+              enemy.AbilityList.remove(abilitateRandom);
 
-            caracterCurent.accept(spell);
-
+              caracterCurent.accept(spell);
+            }
           }else {
             caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
          }

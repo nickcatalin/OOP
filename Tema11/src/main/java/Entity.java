@@ -25,6 +25,15 @@ public abstract class Entity {
     spell.visit(this);
     }
 
+    public int useAbility(Spell spell)
+    {
+        if(spell.mana<this.CurrentMana)
+        {
+            this.CurrentMana=this.CurrentMana-spell.mana;
+            return 1;
+        }
+        return 0;
+    }
 
 
 
