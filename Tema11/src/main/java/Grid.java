@@ -155,7 +155,7 @@ private static Grid grid;
 
     public static Grid generateMap(int Lenght,int Width,int gameType) {
         if (grid == null) grid = new Grid(Lenght,Width);
-       if(gameType==2)
+       if(gameType==1)
         grid.generateTestMap();
        else
            grid.generateRandomMap();

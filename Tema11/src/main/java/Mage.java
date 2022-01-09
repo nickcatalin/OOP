@@ -38,7 +38,11 @@ public class Mage extends Character{
 
         super.Character_Inventory.maXInventory=10;
     }
-
+    @Override
+    public void accept(Spell spell)
+    {
+        spell.visit(this);
+    }
 
 
     public void receiveDamage(int value)

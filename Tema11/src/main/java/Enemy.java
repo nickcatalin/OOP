@@ -12,9 +12,7 @@ public Enemy()
     super.earthProtection=rand.nextBoolean();
     super.fireProtection=rand.nextBoolean();
     super.iceProtection=rand.nextBoolean();
-//    super.earthProtection=false;
-// super.fireProtection=false;
-//    super.iceProtection=false;
+
     int abilityNumber = rand.nextInt(2,5);
     while(abilityNumber>0)
     {   int randomAbility = rand.nextInt(3);
@@ -37,6 +35,12 @@ public Enemy()
                 return 20;
         return 10;
     }
+    @Override
+    public void accept(Spell spell)
+    {
+        spell.visit(this);
+    }
+
     @Override
     public void receiveDamage(int value) {
         Random rand = new Random();

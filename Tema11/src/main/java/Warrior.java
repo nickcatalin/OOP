@@ -39,6 +39,12 @@ public class Warrior extends Character{
         super.Character_Inventory.maXInventory=20;
 
     }
+    @Override
+    public void accept(Spell spell)
+    {
+        spell.visit(this);
+    }
+
 
     public void receiveDamage(int value)
     {   value = value - super.dexterity*super.charisma/10*2;

@@ -31,9 +31,9 @@ public class Game {
         Account account = new Account();
         JSONObject person = (JSONObject) o;
 
-        JSONObject b = (JSONObject) person.get("credentials");
-        String email = (String) b.get("email");
-        String password = (String) b.get("password");
+        JSONObject credentials = (JSONObject) person.get("credentials");
+        String email = (String) credentials.get("email");
+        String password = (String) credentials.get("password");
 
         Credentials Credentials = new Credentials();
         Credentials.setEmail(email);
@@ -61,16 +61,16 @@ public class Game {
         JSONArray characters = (JSONArray) person.get("characters");
         for (Object ch : characters) {
           JSONObject character = (JSONObject) ch;
-          String prof = (String) character.get("profession");
+          String profession = (String) character.get("profession");
           int exp = ((Long) character.get("experience")).intValue();
 
           String character_name = (String) character.get("name");
           int character_level = Integer.parseInt((String) character.get("level"));
-          if(prof.equals("Warrior"))
+          if(profession.equals("Warrior"))
             account.allAccountCharactes.add(new Warrior(character_name,character_level,exp)) ;
-          if(prof.equals("Mage"))
+          if(profession.equals("Mage"))
             account.allAccountCharactes.add(new Mage(character_name,character_level,exp)) ;
-          if(prof.equals("Rogue"))
+          if(profession.equals("Rogue"))
             account.allAccountCharactes.add(new Rogue(character_name,character_level,exp)) ;
         }
         accountsList.add(account);
@@ -155,15 +155,15 @@ public class Game {
     return null;
   }
 
-  private Character printAccountCharacters(Account contCurent)
+  private Character printAccountCharacters(Account  currentCharacter)
   {
-    for(int i = 1;i<=contCurent.allAccountCharactes.size();i++) {
-      System.out.println(i+". "+contCurent.allAccountCharactes.get(i-1));
+    for(int i = 1;i<= currentCharacter.allAccountCharactes.size();i++) {
+      System.out.println(i+". "+ currentCharacter.allAccountCharactes.get(i-1));
     }
     Scanner in = new Scanner(System.in);
-    int contAles=in.nextInt();
-    // in.close();
-    return contCurent.allAccountCharactes.get(contAles-1);
+    int chosenAccount=in.nextInt();
+
+    return  currentCharacter.allAccountCharactes.get(chosenAccount-1);
   }
 
   private void showInventory(Character caracterCurent)
@@ -186,7 +186,98 @@ public class Game {
    // System.out.println(caracterCurent.CurrentHealth+"    "+ caracterCurent.CurrentMana);
 
   }
+  private void showInventoryHarcodat(Character caracterCurent)
+  {
+    System.out.println(" ____________________\n" +
+            "|______Inventory______|");
+    for(int i=0;i<caracterCurent.Character_Inventory.potionList.size();i++)
+      System.out.println((i+1)+". "+caracterCurent.Character_Inventory.potionList.get(i));
+    System.out.println((caracterCurent.Character_Inventory.potionList.size()+1)+". Ca sa iesi din inventar");
+    System.out.println("_____________________");
 
+    int alegere = 1;
+    if(alegere==caracterCurent.Character_Inventory.potionList.size()+1)
+      return;
+
+    Potion potion = caracterCurent.Character_Inventory.potionList.get(alegere-1);
+    caracterCurent.Character_Inventory.removePotion(alegere-1);
+    potion.usePotion(caracterCurent);
+
+
+  }
+  public void theFightHarcodat(Character caracterCurent,Enemy enemy)
+  {
+    System.out.println(
+            "\n" + " O       /\\___/\\\n" + "/|\\/     \\(o o)/\n" + "/ \\       \\VWV/\n");
+    int tura=0,alegere=2,j=0;
+    Random rand = new Random();
+
+    while(caracterCurent.CurrentHealth>0&&enemy.CurrentHealth>0)
+    {
+
+      if(tura==0)
+      { System.out.println("Character's turn");
+        System.out.println("Character -> health: "+caracterCurent.CurrentHealth+"  mana: "+caracterCurent.CurrentMana+"\nEnemy -> health: "+enemy.CurrentHealth+"  mana: "+enemy.CurrentMana);
+        System.out.println("1. Normal Atack\n2. Ability Atack\n3. Open Inventory");
+
+
+        if(alegere==1)
+        {System.out.println("1");
+          enemy.CurrentHealth = enemy.CurrentHealth - caracterCurent.getDamage();
+
+        }
+        else if(alegere==2)
+        {System.out.println("2");
+          for(int i=0;i<caracterCurent.AbilityList.size();i++)
+            System.out.println((i+1)+". "+ caracterCurent.AbilityList.get(i));
+          System.out.println((caracterCurent.AbilityList.size()+1)+". Folosesti atac NORMAL");
+
+            Spell spell = caracterCurent.AbilityList.get(0);
+            caracterCurent.AbilityList.remove(0);
+            System.out.println("1");
+            enemy.accept(spell);
+          alegere=3;
+
+        }else if(alegere==3)
+        { System.out.println("3");
+          this.showInventoryHarcodat(caracterCurent);
+          System.out.println("1");
+          alegere=2;
+          j++;
+          if(j==2)
+            alegere=1;
+        }
+        tura=1;
+
+      }
+      else
+      { System.out.println("Enemy's turn");
+        System.out.println("Character -> health: "+caracterCurent.CurrentHealth+"  mana: "+caracterCurent.CurrentMana+"\nEnemy -> health: "+enemy.CurrentHealth+"  mana: "+enemy.CurrentMana);
+        if(enemy.AbilityList.size()>0)
+        {   int sansa25=rand.nextInt(100);
+          if(sansa25%4==0)
+          { int abilitateRandom=rand.nextInt(enemy.AbilityList.size());
+            System.out.println(enemy.AbilityList);
+            Spell spell=enemy.AbilityList.get(abilitateRandom);
+            enemy.AbilityList.remove(abilitateRandom);
+
+            caracterCurent.accept(spell);
+
+          }else {
+            caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
+          }
+
+        }else {
+          caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
+        }
+
+        tura=0;
+      }
+    }
+    if(caracterCurent.CurrentHealth<=0)
+      System.exit(0);
+
+  }
   public void thefight(Character caracterCurent,Enemy enemy)
   {
     System.out.println(
@@ -220,9 +311,9 @@ public class Game {
           } else {
             Spell spell = caracterCurent.AbilityList.get(alegere - 1);
             caracterCurent.AbilityList.remove(alegere - 1);
-            caracterCurent.useAbility(spell, enemy);
-            enemy.useAbility(spell, caracterCurent);
-            spell.visit(enemy);
+            //caracterCurent.useAbility(spell, enemy);
+      enemy.accept(spell);
+
 }
         }else if(alegere==3)
         {
@@ -239,12 +330,15 @@ public class Game {
         {   int sansa25=rand.nextInt(100);
           if(sansa25%4==0)
           { int abilitateRandom=rand.nextInt(enemy.AbilityList.size());
+            System.out.println(enemy.AbilityList);
             Spell spell=enemy.AbilityList.get(abilitateRandom);
-            enemy.AbilityList.get(abilitateRandom);
-            enemy.useAbility(spell,caracterCurent);
+            enemy.AbilityList.remove(abilitateRandom);
+
+            caracterCurent.accept(spell);
+
           }else {
             caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
-          }
+         }
 
         }else {
           caracterCurent.CurrentHealth=caracterCurent.CurrentHealth-enemy.getDamage();
@@ -259,7 +353,7 @@ public class Game {
   }
   public void printStories(Character caracterCurent,Grid grid)
   { System.out.println();
-    caracterCurent.Character_Inventory.printCoins();
+
     Random rand = new Random();
     Cell celula= (Cell) ((ArrayList)grid.get(caracterCurent.Current_Ox)).get(caracterCurent.Current_Oy);
     int poveste;
@@ -292,7 +386,7 @@ public class Game {
       grid.printMap();
     }
     if(celula.CellType== Cell.Story.SHOP)
-    {
+    { caracterCurent.Character_Inventory.printCoins();
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
       Shop magazin= (Shop) celula.enemyORshop;
       System.out.println(StoriesMap.get(Cell.Story.SHOP).get(poveste));
@@ -329,36 +423,42 @@ public class Game {
     }
 
   }
+  public void harcodareTastaP()
+  {
+    Scanner in = new Scanner(System.in);
+    System.out.println("Apasati tasta P pentru a continua");
+    in.nextLine();
+  }
   public void testHarcodat(Grid grid, Character caracterCurent)
   {
-    this.printStories(grid.MyCharacter, grid);
+    this.printStoriesHarcodat(grid,caracterCurent,0);
     //Se duce la dreapta de 3 ori
     grid.goEast();
-    this.printStories(grid.MyCharacter, grid);
+    this.printStoriesHarcodat(grid,caracterCurent,0);
 
     grid.goEast();
-    this.printStories(grid.MyCharacter, grid);
+    this.printStoriesHarcodat(grid,caracterCurent,0);
 
     grid.goEast();
    // this.printStories(grid.MyCharacter, grid);// cumpara o pot de viata si de mana
                                                 // TREBUIE SA FACI O ALTA FUNCTIE PENTRU SHOP IN CARE SA TE INTREBI DACA E HARDCODAT SAU NU
     this.printStoriesHarcodat(grid,caracterCurent,0);
     grid.goEast(); // inca una la dreapta
-    this.printStories(grid.MyCharacter, grid);
+    this.printStoriesHarcodat(grid,caracterCurent,0);
 
     // de 3 ori in jos
     grid.goSouth();
-    this.printStories(grid.MyCharacter, grid);
+    this.printStoriesHarcodat(grid,caracterCurent,0);
 
     grid.goSouth();
-    this.printStories(grid.MyCharacter, grid);
+    this.printStoriesHarcodat(grid,caracterCurent,0);
 
     grid.goSouth();
-    this.printStories(grid.MyCharacter, grid); // da de inamic
+    this.printStoriesHarcodat(grid,caracterCurent,0); // da de inamic
 
 
     grid.goSouth(); // inca una in jos
-    this.printStories(grid.MyCharacter, grid); // finish
+    this.printStoriesHarcodat(grid,caracterCurent,0);// finish
   }
   public void testNormal(Grid grid, Character caracterCurent)
   {       Scanner in = new Scanner(System.in);
@@ -395,7 +495,7 @@ public class Game {
   public void printStoriesHarcodat(Grid grid,Character caracterCurent,int comanda)
   {
     System.out.println();
-    caracterCurent.Character_Inventory.printCoins();
+   // this.harcodareTastaP();
     Random rand = new Random();
     Cell celula= (Cell) ((ArrayList)grid.get(caracterCurent.Current_Ox)).get(caracterCurent.Current_Oy);
     int poveste;
@@ -417,7 +517,7 @@ public class Game {
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.ENEMY).size());
       System.out.println(StoriesMap.get(Cell.Story.ENEMY).get(poveste));
       if(celula.Visited==0)
-        this.thefight(caracterCurent,(Enemy) celula.enemyORshop);
+        this.theFightHarcodat(caracterCurent,(Enemy) celula.enemyORshop);
       int sansaMoneda=rand.nextInt(101);
       if (sansaMoneda % 5 != 0 && celula.Visited == 0) {
         int banuti=rand.nextInt(1,35);
@@ -428,7 +528,7 @@ public class Game {
       grid.printMap();
     }
     if(celula.CellType== Cell.Story.SHOP)
-    {
+    {caracterCurent.Character_Inventory.printCoins();
       poveste=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
       Shop magazin= (Shop) celula.enemyORshop;
       System.out.println(StoriesMap.get(Cell.Story.SHOP).get(poveste));
@@ -477,16 +577,18 @@ public class Game {
     this.readAccounts();
     this.readStories();
 
-    Grid grid=Grid.generateMap(5,5, index);
 
+    if(index==1)
+    {  Grid grid=Grid.generateMap(5,5, index);
 
-    if(index==2)
-    { grid.MyCharacter=this.accountsList.get(0).allAccountCharactes.get(0);
+      grid.MyCharacter=this.accountsList.get(0).allAccountCharactes.get(0);
       this.testHarcodat(grid,this.accountsList.get(0).allAccountCharactes.get(0));
 
     }
     else
-    {Account contCurent=this.testLogin();
+    { Grid grid=Grid.generateMap(7,6, index);
+
+      Account contCurent=this.testLogin();
      Character caracterCurent=this.printAccountCharacters(contCurent);
      System.out.println(caracterCurent);
       grid.MyCharacter=caracterCurent;

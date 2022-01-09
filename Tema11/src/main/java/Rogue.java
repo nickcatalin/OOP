@@ -38,6 +38,11 @@ public class Rogue extends Character{
 
         super.Character_Inventory.maXInventory=15;
     }
+    @Override
+    public void accept(Spell spell)
+    {
+        spell.visit(this);
+    }
 
 
     public void receiveDamage(int value)
