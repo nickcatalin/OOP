@@ -49,10 +49,10 @@ class Information {
 }
 
 class InformationBuilder {
-  private Credentials playerCredentials ;
-  private List<String> favoriteGames ;
-  private String Name;
-  private String Country;
+  private Credentials playerCredentials =null;
+  private List<String> favoriteGames=null ;
+  private String Name=null;
+  private String Country=null;
 
   public InformationBuilder setCredentials(Credentials playerCredentials) {
     this.playerCredentials = playerCredentials;
@@ -74,9 +74,16 @@ class InformationBuilder {
     return this;
   }
 
-  public Information build() {
+  public Information build()  {
+   try {
+    if(playerCredentials==null||favoriteGames==null||Name==null||Country==null)
+      throw new Exception(" InformationIncompleteException");
     return new Information(playerCredentials, favoriteGames, Name, Country);
-  }
+  }catch (Exception e) {
+     e.printStackTrace();
+   }
+  return null;
+   }
 }
 
 class Credentials {

@@ -57,7 +57,7 @@ public class Game {
                         .setCredentials(Credentials)
                         .setfavoriteGames(favoriteGames)
                         .build();
-
+        CharacterFactory characterFactory = new CharacterFactory();
         JSONArray characters = (JSONArray) person.get("characters");
         for (Object ch : characters) {
           JSONObject character = (JSONObject) ch;
@@ -66,12 +66,8 @@ public class Game {
 
           String character_name = (String) character.get("name");
           int character_level = Integer.parseInt((String) character.get("level"));
-          if(profession.equals("Warrior"))
-            account.allAccountCharactes.add(new Warrior(character_name,character_level,exp)) ;
-          if(profession.equals("Mage"))
-            account.allAccountCharactes.add(new Mage(character_name,character_level,exp)) ;
-          if(profession.equals("Rogue"))
-            account.allAccountCharactes.add(new Rogue(character_name,character_level,exp)) ;
+
+          account.allAccountCharactes.add(characterFactory.getCharacter(profession,character_name,character_level,exp));
         }
         accountsList.add(account);
       }
@@ -496,7 +492,7 @@ public class Game {
   public void printStoriesHarcodat(Grid grid,Character currentCharacter)
   {
     System.out.println();
-   // this.harcodareTastaP();
+  // this.harcodareTastaP();
     Random rand = new Random();
     Cell cell= (Cell) ((ArrayList)grid.get(currentCharacter.Current_Ox)).get(currentCharacter.Current_Oy);
     int story;
