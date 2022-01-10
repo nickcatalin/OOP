@@ -492,7 +492,7 @@ public class Game {
   public void printStoriesHarcodat(Grid grid,Character currentCharacter)
   {
     System.out.println();
-  // this.harcodareTastaP();
+   this.harcodareTastaP();
     Random rand = new Random();
     Cell cell= (Cell) ((ArrayList)grid.get(currentCharacter.Current_Ox)).get(currentCharacter.Current_Oy);
     int story;
