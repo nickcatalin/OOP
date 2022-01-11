@@ -10,15 +10,15 @@ public class Shop implements CellElement{
     public Shop()
     {
         Random rand = new Random();
-        this.shopPotionList.add(new HealthPotion());
-        this.shopPotionList.add(new ManaPotion());
+        this.shopPotionList.add(new HealthPotion(15,50,1));
+        this.shopPotionList.add(new ManaPotion(10,50,1));
         int potionNumber = rand.nextInt(3);
         while(potionNumber>0)
         {   int randomPotion = rand.nextInt(2);
             if(randomPotion==0)
-                this.shopPotionList.add(new HealthPotion());
+                this.shopPotionList.add(new HealthPotion(15,50,1));
             if(randomPotion==1)
-               this.shopPotionList.add(new ManaPotion());
+               this.shopPotionList.add(new ManaPotion(10,50,1));
             potionNumber--;
         }
     }

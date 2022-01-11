@@ -595,8 +595,11 @@ public class Game {
   }
 
 
+
   public static Game getInstance() {
     if (game == null) game = new Game();
     return game;
   }
 }
+
+

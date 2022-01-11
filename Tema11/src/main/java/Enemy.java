@@ -5,7 +5,7 @@ public class Enemy extends Entity implements CellElement{
 public Enemy()
 {
     Random rand = new Random();
-   super.CurrentHealth =rand.nextInt(30,70);
+   super.CurrentHealth =rand.nextInt(65,70);
    super.CurrentMana =rand.nextInt(30,60);
     super.MaxHealth=70;
     super.MaxMana=70;

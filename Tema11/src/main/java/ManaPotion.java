@@ -1,5 +1,22 @@
 public class ManaPotion implements Potion{
 
+    int price;
+    int regenVal;
+    int potionweight;
+
+
+    public ManaPotion()
+    {
+
+    }
+    public ManaPotion(int price, int regenVal, int potionWeight)
+    {
+        this.price = price;
+        this.regenVal = regenVal;
+        this.potionweight = potionWeight;
+
+    }
+
 
     @Override
     public void usePotion(Character character) {
@@ -9,17 +26,17 @@ public class ManaPotion implements Potion{
 
     @Override
     public int potionPrice() {
-        return 10;
+        return this.price;
     }
 
     @Override
     public int regenValue() {
-        return 30;
+        return this.regenVal;
     }
 
     @Override
     public int potionWeight() {
-        return 1;
+        return this.potionweight;
     }
 
     @Override
