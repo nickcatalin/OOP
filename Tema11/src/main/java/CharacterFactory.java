@@ -1,5 +1,5 @@
 public class CharacterFactory {
-    public  Character getCharacter(String characterType, String name, int level, int experience)
+    public   Character getCharacter(String characterType, String name, int level, int experience)
     {
         if(characterType.equals("Warrior"))
             return new Warrior(name,level,experience);
