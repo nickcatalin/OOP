@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Shop implements CellElement{
 
-    List<Potion> shopPotionList= new ArrayList<Potion>();
+    List<Potion> shopPotionList= new ArrayList<>();
 
     public Shop()
     {
@@ -33,9 +32,8 @@ public class Shop implements CellElement{
     }
     public Potion getPotion(int index)
     {
-        Potion potion = this.shopPotionList.get(index-1);
 
-      return potion;
+        return this.shopPotionList.get(index-1);
 }
 public void boughtPotion(int index)
 {

@@ -96,7 +96,9 @@ class Credentials {
   public void setPassword(String password) {
     this.password = password;
   }
-
+  public String getEmail() {
+    return this.email;
+  }
   public boolean equals(String email, String password) {
 
     if (this.email.equals(email)&& this.password.equals(password)) return true;

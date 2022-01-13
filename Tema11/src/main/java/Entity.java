@@ -3,7 +3,7 @@ import java.util.List;
 
 public abstract class Entity {
 
-    List<Spell> AbilityList = new ArrayList<Spell>();
+    List<Spell> AbilityList = new ArrayList<>();
     int CurrentHealth ,MaxHealth;
     int CurrentMana ,MaxMana;
     boolean fireProtection,iceProtection,earthProtection;

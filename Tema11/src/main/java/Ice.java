@@ -1,7 +1,8 @@
 public class Ice extends Spell {
-    String name = "Ice";
+    String name ;
     Ice(){
         super(10,5);
+        this.name="Ice";
     }
     public void visit(Entity entity)
     {
@@ -24,11 +25,11 @@ public class Ice extends Spell {
 
     public void visit(Enemy enemy)
     {
-        if(enemy.iceProtection==false)
+        if(!enemy.iceProtection)
             enemy.receiveDamage(super.damage);
 
     }
     public String toString() {
-        return "Ice";
+        return name;
     }
 }

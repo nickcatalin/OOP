@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
+@SuppressWarnings("ALL")
 public class Grid extends ArrayList {
 List<Cell> Map;
 int lenght,width;
@@ -10,7 +12,6 @@ private static Grid grid;
 
     private Grid()
     {
-
 
     }
 
@@ -171,7 +172,7 @@ private static Grid grid;
     }
     public int goNorth()
     {
-        if (this.MyCharacter.Current_Ox == 0) {
+        if (this.MyCharacter.Current_Ox <= 0) {
             System.out.println("Cazi de pe harta\n");
             return 0;}
         this.MyCharacter.Current_Ox--;
@@ -187,10 +188,11 @@ private static Grid grid;
     }
     public int goWest()
     {
-        if (this.MyCharacter.Current_Ox == 0) {
+        if (this.MyCharacter.Current_Ox <= 0) {
             System.out.println("Cazi de pe harta\n");
             return 0;}
         this.MyCharacter.Current_Oy--;
         return 1;
     }
+
 }

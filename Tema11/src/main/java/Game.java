@@ -8,8 +8,8 @@ import org.json.simple.parser.ParseException;
 
 public class Game {
   private static Game game;
-  List<Account> accountsList = new ArrayList<Account>();
-  Map<Cell.Story, List<String>> StoriesMap = new HashMap<Cell.Story, List<String>>();
+  List<Account> accountsList = new ArrayList<>();
+  Map<Cell.Story, List<String>> StoriesMap = new HashMap<>();
 
   private Game()
   {
@@ -24,7 +24,7 @@ public class Game {
               (JSONArray)
                       parser.parse(
                               new FileReader(
-                                      "src\\main\\java\\Teste\\test.json"));
+                                      "src\\main\\java\\Teste\\accounts.json"));
 
 
       for (Object o : a) {
@@ -43,7 +43,7 @@ public class Game {
         String country = (String) person.get("country");
 
         JSONArray favourite_games = (JSONArray) person.get("favorite_games");
-        List<String> favoriteGames = new ArrayList<String>();
+        List<String> favoriteGames = new ArrayList<>();
 
         account.allGamesNumber = Integer.parseInt((String) person.get("maps_completed"));
 
@@ -71,15 +71,69 @@ public class Game {
         }
         accountsList.add(account);
       }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
+    } catch (IOException | ParseException e) {
       e.printStackTrace();
     }
   }
+  private void saveProgress(String Mail,String CharacterNAME)
+  {
+    JSONParser parser = new JSONParser();
 
+    try {
+      JSONArray a =
+              (JSONArray)
+                      parser.parse(
+                              new FileReader(
+                                      "src\\main\\java\\Teste\\accounts.json"));
+      FileWriter file = new FileWriter("src\\main\\java\\Teste\\accounts.json");
+
+      for (Object o : a) {
+
+        JSONObject person = (JSONObject) o;
+
+        JSONObject credentials = (JSONObject) person.get("credentials");
+        String email = (String) credentials.get("email");
+
+        if(Mail.equals(email))
+        {
+          int mape = Integer.parseInt((String) person.get("maps_completed"));
+          System.out.println("Ai mai completat o harta, numarul de harti completate :"+mape);
+          mape++;
+
+          person.replace("maps_completed", Integer.toString(mape));
+          JSONArray characters = (JSONArray) person.get("characters");
+          for (Object ch : characters) {
+            JSONObject character = (JSONObject) ch;
+            String characterName=(String) character.get("name");
+            if(CharacterNAME.equals(characterName))
+            {     int exp = ((Long) character.get("experience")).intValue();
+              int character_level = Integer.parseInt((String) character.get("level"));
+
+              exp=exp+40;
+              if(exp>=character_level*50)
+              {
+                exp=exp-character_level*50;
+                character_level++;
+              }
+              character.replace("level", Integer.toString(character_level));
+              character.replace("experience",exp);
+              System.out.println("Level: "+character_level+" Experienta: "+exp);
+              break;
+
+            }
+          }
+          break;
+        }
+
+      }
+
+      file.write(a.toJSONString());
+      file.flush();
+      file.close();
+    } catch (IOException | ParseException e) {
+      e.printStackTrace();
+    }
+  }
   private void readStories()
   {
     JSONParser parser = new JSONParser();
@@ -93,13 +147,13 @@ public class Game {
 
 
 
-      List<String>  empty = new ArrayList<String>();
+      List<String>  empty = new ArrayList<>();
 
-      List<String> enemy = new ArrayList<String>();
+      List<String> enemy = new ArrayList<>();
 
-      List<String> shop = new ArrayList<String>();
+      List<String> shop = new ArrayList<>();
 
-      List<String> finish  = new ArrayList<String>();
+      List<String> finish  = new ArrayList<>();
       for (Object o : a) {
 
         JSONObject story = (JSONObject) o;
@@ -120,11 +174,7 @@ public class Game {
       StoriesMap.put(Cell.Story.SHOP,shop);
       StoriesMap.put(Cell.Story.FINISH,finish);
 
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
+    } catch (IOException | ParseException e) {
       e.printStackTrace();
     }
   }
@@ -134,21 +184,22 @@ public class Game {
     Scanner in = new Scanner(System.in);
     String email;
     String password;
-    int ok=1;
-    while (ok == 1) {
+
+    while (true) {
       System.out.println("Cont:");
       email = in.nextLine();
       password = in.nextLine();
-      for (Object i : accountsList) {
-        Account test = (Account) i;
-        if (test.playerInfo.playerCredentials.equals(email, password)) {
-          return test;
+      for (Account i : accountsList) {
+
+        if (i.playerInfo.playerCredentials.equals(email, password)) {
+
+          return i;
         }
       }
     }
 
-    in.close();
-    return null;
+
+
   }
 
   private Character printAccountCharacters(Account  currentCharacter)
@@ -201,7 +252,12 @@ public class Game {
   public void theFightHarcodat(Character currentCharacter,Enemy enemy)
   {
     System.out.println(
-            "\n" + " O       /\\___/\\\n" + "/|\\/     \\(o o)/\n" + "/ \\       \\VWV/\n");
+            """
+
+                     O       /\\___/\\
+                    /|\\/     \\(o o)/
+                    / \\       \\VWV/
+                    """);
     int enemyORplayer=0,choice=2,j=0;
     Random rand = new Random();
 
@@ -276,7 +332,12 @@ public class Game {
   public void thefight(Character currentCharacter,Enemy enemy)
   {
     System.out.println(
-            "\n" + " O       /\\___/\\\n" + "/|\\/     \\(o o)/\n" + "/ \\       \\VWV/\n");
+            """
+
+                     O       /\\___/\\
+                    /|\\/     \\(o o)/
+                    / \\       \\VWV/
+                    """);
     int enemyORplayer=0,choice;
     Random rand = new Random();
     Scanner in = new Scanner(System.in);
@@ -348,120 +409,124 @@ public class Game {
       System.exit(0);
 
   }
-  public void printStories(Character currentCharacter,Grid grid)
+  public void printStories(Character currentCharacter,Grid grid,Account account)
   { System.out.println();
 
     Random rand = new Random();
+    if(currentCharacter.Current_Oy<0)
+      currentCharacter.Current_Oy=0;
+    if(currentCharacter.Current_Ox<0)
+      currentCharacter.Current_Ox=0;
+    //noinspection rawtypes
     Cell cell= (Cell) ((ArrayList)grid.get(currentCharacter.Current_Ox)).get(currentCharacter.Current_Oy);
     int story;
-    if(cell.CellType== Cell.Story.EMPTY)
-    {
-      story=rand.nextInt(0,StoriesMap.get(Cell.Story.EMPTY).size());
-      System.out.println(StoriesMap.get(Cell.Story.EMPTY).get(story));
-      int coinChance=rand.nextInt(101);
-      if(coinChance%5==0&&cell.Visited==0){
-        int banuti=rand.nextInt(1,15);
-        currentCharacter.Character_Inventory.Coins =
-                currentCharacter.Character_Inventory.Coins +banuti;
-        System.out.println("Ai gasit "+banuti+" banuti prin nisipul argintiu!");
-      }
-      grid.printMap();
-    }
-    if(cell.CellType== Cell.Story.ENEMY)
-    {
-      story=rand.nextInt(0,StoriesMap.get(Cell.Story.ENEMY).size());
-      System.out.println(StoriesMap.get(Cell.Story.ENEMY).get(story));
-      if(cell.Visited==0)
-        this.thefight(currentCharacter,(Enemy) cell.enemyORshop);
-      int coinChance=rand.nextInt(101);
-      if (coinChance % 5 != 0 && cell.Visited == 0) {
-        int banuti=rand.nextInt(1,35);
-        currentCharacter.Character_Inventory.Coins =
-                currentCharacter.Character_Inventory.Coins +banuti;
-     System.out.println("Ai castigat "+banuti+" banuti pentru invingerea inamicului!");
-      }
-      grid.printMap();
-    }
-    if(cell.CellType== Cell.Story.SHOP)
-    { currentCharacter.Character_Inventory.printCoins();
-      story=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
-      Shop shop= (Shop) cell.enemyORshop;
-      System.out.println(StoriesMap.get(Cell.Story.SHOP).get(story));
-      Scanner in = new Scanner(System.in);
-      int index;
 
-      while(true){
-        shop.printPotionList(currentCharacter);
-        System.out.println((shop.shopPotionList.size()+1)+". Ca sa iesi din Shop");
-        index=in.nextInt();
-        if(index==shop.shopPotionList.size()+1)
-          break;
-      Potion potion=shop.getPotion(index);
-      int canBuyPotion=currentCharacter.testCoinsPotion(potion);
-      if (canBuyPotion == 1) {
-        shop.boughtPotion(index);
+      if (cell.CellType == Cell.Story.EMPTY) {
+        story = rand.nextInt(0, StoriesMap.get(Cell.Story.EMPTY).size());
+        System.out.println(StoriesMap.get(Cell.Story.EMPTY).get(story));
+        int coinChance = rand.nextInt(101);
+        if (coinChance % 5 == 0 && cell.Visited == 0) {
+          int banuti = rand.nextInt(1, 15);
+          currentCharacter.Character_Inventory.Coins =
+              currentCharacter.Character_Inventory.Coins + banuti;
+          System.out.println("Ai gasit " + banuti + " banuti prin nisipul argintiu!");
+        }
+        grid.printMap();
       }
+      if (cell.CellType == Cell.Story.ENEMY) {
+        story = rand.nextInt(0, StoriesMap.get(Cell.Story.ENEMY).size());
+        System.out.println(StoriesMap.get(Cell.Story.ENEMY).get(story));
+        if (cell.Visited == 0) this.thefight(currentCharacter, (Enemy) cell.enemyORshop);
+        int coinChance = rand.nextInt(101);
+        if (coinChance % 5 != 0 && cell.Visited == 0) {
+          int banuti = rand.nextInt(1, 35);
+          currentCharacter.Character_Inventory.Coins =
+              currentCharacter.Character_Inventory.Coins + banuti;
+          System.out.println("Ai castigat " + banuti + " banuti pentru invingerea inamicului!");
+        }
+        grid.printMap();
       }
-      grid.printMap();
-    }
-    if(cell.CellType== Cell.Story.FINISH)
-    {
-      story=rand.nextInt(0,StoriesMap.get(Cell.Story.FINISH).size());
-      System.out.println(StoriesMap.get(Cell.Story.FINISH).get(story));
-      grid.printMap();
-      System.out.println(
-          "\n"
-              + "    _    _                 _    _              _     _  _  _  _ \n"
-              + "   /_\\  (_)  __  __ _  ___| |_ (_) __ _  __ _ | |_  | || || || |\n"
-              + "  / _ \\ | | / _|/ _` |(_-<|  _|| |/ _` |/ _` ||  _| |_||_||_||_|\n"
-              + " /_/ \\_\\|_| \\__|\\__,_|/__/ \\__||_|\\__, |\\__,_| \\__| (_)(_)(_)(_)\n"
-              + "                                  |___/                         \n");
-      System.exit(0);
-    }
+      if (cell.CellType == Cell.Story.SHOP) {
+        currentCharacter.Character_Inventory.printCoins();
+        story = rand.nextInt(0, StoriesMap.get(Cell.Story.SHOP).size());
+        Shop shop = (Shop) cell.enemyORshop;
+        System.out.println(StoriesMap.get(Cell.Story.SHOP).get(story));
+        Scanner in = new Scanner(System.in);
+        int index;
+
+        while (true) {
+          shop.printPotionList(currentCharacter);
+          System.out.println((shop.shopPotionList.size() + 1) + ". Ca sa iesi din Shop");
+          index = in.nextInt();
+          if (index == shop.shopPotionList.size() + 1) break;
+          Potion potion = shop.getPotion(index);
+          int canBuyPotion = currentCharacter.testCoinsPotion(potion);
+          if (canBuyPotion == 1) {
+            shop.boughtPotion(index);
+          }
+        }
+        grid.printMap();
+      }
+      if (cell.CellType == Cell.Story.FINISH) {
+        story = rand.nextInt(0, StoriesMap.get(Cell.Story.FINISH).size());
+        System.out.println(StoriesMap.get(Cell.Story.FINISH).get(story));
+        grid.printMap();
+        game.saveProgress(account.playerInfo.playerCredentials.getEmail(), account.allAccountCharactes.get(0).name);
+        System.out.println(
+                """
+
+                            _    _                 _    _              _     _  _  _  _\s
+                           /_\\  (_)  __  __ _  ___| |_ (_) __ _  __ _ | |_  | || || || |
+                          / _ \\ | | / _|/ _` |(_-<|  _|| |/ _` |/ _` ||  _| |_||_||_||_|
+                         /_/ \\_\\|_| \\__|\\__,_|/__/ \\__||_|\\__, |\\__,_| \\__| (_)(_)(_)(_)
+                                                          |___/                        \s
+                        """);
+        System.exit(0);
+      }
 
   }
   public void harcodareTastaP()
   {
     Scanner in = new Scanner(System.in);
     System.out.println("Apasati tasta P pentru a continua");
-    in.nextLine();
+   // in.nextLine();
   }
-  public void testHarcodat(Grid grid, Character currentCharacter)
+  public void testHarcodat(Grid grid, Character currentCharacter,Account account)
   {
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
     grid.goEast();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
     grid.goEast();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
     grid.goEast();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
     grid.goEast();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
 
     grid.goSouth();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
     grid.goSouth();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
     grid.goSouth();
-    this.printStoriesHarcodat(grid,currentCharacter);
+    this.printStoriesHarcodat(grid,currentCharacter,account);
 
 
     grid.goSouth();
-    this.printStoriesHarcodat(grid,currentCharacter); // finish
+    this.printStoriesHarcodat(grid,currentCharacter,account); // finish
   }
-  public void testNormal(Grid grid, Character currentCharacter)
+  public void testNormal(Grid grid, Character currentCharacter,Account account)
   {       Scanner in = new Scanner(System.in);
           int choice,i;
 
     while (true)
-    { this.printStories(currentCharacter, grid);
+    { this.printStories(currentCharacter, grid, account);
       System.out.println("1. Go East   2. Go West\n3. Go North   4. Go South");
       choice=in.nextInt();
       if(choice==1)
@@ -489,11 +554,12 @@ public class Game {
 
     }
   }
-  public void printStoriesHarcodat(Grid grid,Character currentCharacter)
+  public void printStoriesHarcodat(Grid grid,Character currentCharacter,Account account)
   {
     System.out.println();
    this.harcodareTastaP();
     Random rand = new Random();
+    //noinspection rawtypes
     Cell cell= (Cell) ((ArrayList)grid.get(currentCharacter.Current_Ox)).get(currentCharacter.Current_Oy);
     int story;
     if(cell.CellType== Cell.Story.EMPTY)
@@ -529,7 +595,6 @@ public class Game {
       story=rand.nextInt(0,StoriesMap.get(Cell.Story.SHOP).size());
       Shop shop= (Shop) cell.enemyORshop;
       System.out.println(StoriesMap.get(Cell.Story.SHOP).get(story));
-      Scanner in = new Scanner(System.in);
       int index;
       int i=0;
       while(true){
@@ -559,13 +624,16 @@ public class Game {
       story=rand.nextInt(0,StoriesMap.get(Cell.Story.FINISH).size());
       System.out.println(StoriesMap.get(Cell.Story.FINISH).get(story));
       grid.printMap();
+      game.saveProgress(account.playerInfo.playerCredentials.getEmail(), account.allAccountCharactes.get(0).name);
       System.out.println(
-              "\n"
-                      + "    _    _                 _    _              _     _  _  _  _ \n"
-                      + "   /_\\  (_)  __  __ _  ___| |_ (_) __ _  __ _ | |_  | || || || |\n"
-                      + "  / _ \\ | | / _|/ _` |(_-<|  _|| |/ _` |/ _` ||  _| |_||_||_||_|\n"
-                      + " /_/ \\_\\|_| \\__|\\__,_|/__/ \\__||_|\\__, |\\__,_| \\__| (_)(_)(_)(_)\n"
-                      + "                                  |___/                         \n");
+              """
+
+                          _    _                 _    _              _     _  _  _  _\s
+                         /_\\  (_)  __  __ _  ___| |_ (_) __ _  __ _ | |_  | || || || |
+                        / _ \\ | | / _|/ _` |(_-<|  _|| |/ _` |/ _` ||  _| |_||_||_||_|
+                       /_/ \\_\\|_| \\__|\\__,_|/__/ \\__||_|\\__, |\\__,_| \\__| (_)(_)(_)(_)
+                                                        |___/                        \s
+                      """);
       System.exit(0);
     }
 
@@ -579,17 +647,17 @@ public class Game {
     {  Grid grid=Grid.generateMap(5,5, index);
 
       grid.MyCharacter=this.accountsList.get(0).allAccountCharactes.get(0);
-      this.testHarcodat(grid,this.accountsList.get(0).allAccountCharactes.get(0));
+      this.testHarcodat(grid,grid.MyCharacter, this.accountsList.get(0));
 
     }
     else
     { Grid grid=Grid.generateMap(7,6, index);
 
       Account contCurent=this.testLogin();
-     Character caracterCurent=this.printAccountCharacters(contCurent);
-     System.out.println(caracterCurent);
-      grid.MyCharacter=caracterCurent;
-      this.testNormal(grid,caracterCurent);
+      grid.MyCharacter=this.printAccountCharacters(contCurent);
+     System.out.println(grid.MyCharacter);
+
+      this.testNormal(grid, grid.MyCharacter,contCurent);
     }
 
   }

@@ -5,10 +5,7 @@ public class ManaPotion implements Potion{
     int potionweight;
 
 
-    public ManaPotion()
-    {
 
-    }
     public ManaPotion(int price, int regenVal, int potionWeight)
     {
         this.price = price;

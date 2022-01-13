@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Inventory {
 
-    List<Potion> potionList=new ArrayList<Potion>();
+    List<Potion> potionList= new ArrayList<>();
     int maXInventory ;
     int Coins;
 

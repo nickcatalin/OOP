@@ -1,7 +1,8 @@
 public class Fire extends Spell{
-    String name = "Fire";
+    String name;
     Fire(){
         super(30,10);
+        this.name="Fire";
     }
     public void visit(Entity entity)
     {
@@ -25,11 +26,11 @@ public class Fire extends Spell{
     public void visit(Enemy enemy)
     {
 
-    if(enemy.fireProtection==false)
+    if(!enemy.fireProtection)
         enemy.receiveDamage(super.damage);
 
     }
     public String toString() {
-        return "Fire";
+        return name;
     }
 }

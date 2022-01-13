@@ -1,8 +1,9 @@
 public class Earth extends Spell{
-    String name = "Earth";
+    String name ;
     Earth()
     {
         super(15,7);
+        this.name="Earth";
     }
     public void visit(Entity entity)
     {
@@ -25,11 +26,11 @@ public class Earth extends Spell{
 
     public void visit(Enemy enemy)
     {
-        if(enemy.earthProtection==false)
+        if(!enemy.earthProtection)
             enemy.receiveDamage(super.damage);
 
     }
     public String toString() {
-        return "Earth";
+        return name;
     }
 }

@@ -3,10 +3,7 @@ public class HealthPotion implements Potion {
     int price;
     int regenVal;
     int potionweight;
-    public HealthPotion()
-    {
 
-    }
     public HealthPotion(int price, int regenVal, int potionWeight)
     {
         this.price = price;
