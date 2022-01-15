@@ -7,7 +7,8 @@ public class Shop implements CellElement{
     List<Potion> shopPotionList= new ArrayList<>();
 
     public Shop()
-    {
+    {   // 2 potiuni puse de mine ca sa fiu sigur ca shop are cate o potiune de mana si de viata
+        // alte 0-2 potiuni generate random
         Random rand = new Random();
         this.shopPotionList.add(new HealthPotion(15,50,1));
         this.shopPotionList.add(new ManaPotion(10,50,1));
@@ -21,6 +22,7 @@ public class Shop implements CellElement{
             potionNumber--;
         }
     }
+    // metoda ce afiseaza lista de potiuni a magazinului si lista de potiuni ale caracterului
     public void printPotionList(Character character)
     {
         System.out.println(" ____________________\n" +
@@ -32,10 +34,10 @@ public class Shop implements CellElement{
     }
     public Potion getPotion(int index)
     {
-
         return this.shopPotionList.get(index-1);
-}
-public void boughtPotion(int index)
+    }
+    // metoda de sterge o potiune din shop in caz de caractru a avut destui bani sa cumpere potiunea
+    public void boughtPotion(int index)
 {
     this.shopPotionList.remove(index-1);
 }

@@ -19,12 +19,13 @@ public abstract class Entity {
             this.CurrentMana=this.MaxMana;
     }
 
-    // De facut functia pentru folosirea unei abilitati
+
     public void accept(Spell spell)
     {
     spell.visit(this);
     }
 
+    // metoda ce testeaza daca avem suficienta mana sa folosim o abilitate
     public int useAbility(Spell spell)
     {
         if(spell.mana<this.CurrentMana)

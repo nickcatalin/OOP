@@ -5,14 +5,16 @@ public class Enemy extends Entity implements CellElement{
 public Enemy()
 {
     Random rand = new Random();
-   super.CurrentHealth =rand.nextInt(65,70);
-   super.CurrentMana =rand.nextInt(30,60);
+    // atributele inamicului
+    super.CurrentHealth =rand.nextInt(65,70);
+    super.CurrentMana =rand.nextInt(30,60);
     super.MaxHealth=70;
     super.MaxMana=70;
     super.earthProtection=rand.nextBoolean();
     super.fireProtection=rand.nextBoolean();
     super.iceProtection=rand.nextBoolean();
 
+    // 2-4 abilitati random pentru inamic
     int abilityNumber = rand.nextInt(2,5);
     while(abilityNumber>0)
     {   int randomAbility = rand.nextInt(3);

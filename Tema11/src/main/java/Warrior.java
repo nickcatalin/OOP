@@ -2,12 +2,10 @@ import java.util.Random;
 
 public class Warrior extends Character{
 
-    // detine cea mai mare greudate a inventarului
-    // imun la foc
-    // atribut principal este puterea
 
     public Warrior(String name,int level,int experience)
     {
+        // Atributele lui warrior
         super(name,level,experience);
         super.profession="Warrior";
         super.MaxHealth=150;
@@ -20,8 +18,9 @@ public class Warrior extends Character{
         super.strength=2*level;
         super.dexterity=level;
         super.charisma=level;
-        Random rand = new Random();
 
+        // 2-4 abilitati random
+        Random rand = new Random();
         int abilityNumber = rand.nextInt(2,4);
         while(abilityNumber>0)
         {   int randomAbility = rand.nextInt(3);
@@ -33,9 +32,9 @@ public class Warrior extends Character{
                 super.AbilityList.add(new Earth());
             abilityNumber--;
         }
+        // inventarul lui warrior
         super.Character_Inventory=new Inventory();
         super.Character_Inventory.Coins=rand.nextInt(50,100);
-
         super.Character_Inventory.maXInventory=20;
 
     }

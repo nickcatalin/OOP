@@ -15,6 +15,7 @@ public class Game {
   {
 
   }
+  // metoda ce citeste conturile din json
   private void readAccounts()
   {
     JSONParser parser = new JSONParser();
@@ -75,6 +76,7 @@ public class Game {
       e.printStackTrace();
     }
   }
+  // metoda ce salveaza progresul in json
   private void saveProgress(String Mail,String CharacterNAME)
   {
     JSONParser parser = new JSONParser();
@@ -134,6 +136,7 @@ public class Game {
       e.printStackTrace();
     }
   }
+  // metoda ce citeste povestile
   private void readStories()
   {
     JSONParser parser = new JSONParser();
@@ -179,6 +182,7 @@ public class Game {
     }
   }
 
+  // metoda pentru logare
   private Account testLogin()
   {
     Scanner in = new Scanner(System.in);
@@ -202,6 +206,7 @@ public class Game {
 
   }
 
+  // metoda ce afiseaza caracterele unui cont
   private Character printAccountCharacters(Account  currentCharacter)
   {
     for(int i = 1;i<= currentCharacter.allAccountCharactes.size();i++) {
@@ -212,9 +217,8 @@ public class Game {
 
     return  currentCharacter.allAccountCharactes.get(chosenAccount-1);
   }
-
-  private void showInventory(Character currentCharacter)
-  {
+  // metoda ce afiseaza inventarul ca sa folosesti o potiune
+  private void showInventory(Character currentCharacter) throws Exception {
     System.out.println(" ____________________\n" +
             "|______Inventory______|");
     for(int i=0;i<currentCharacter.Character_Inventory.potionList.size();i++)
@@ -225,7 +229,8 @@ public class Game {
     int i = in.nextInt();
     if(i==currentCharacter.Character_Inventory.potionList.size()+1)
       return;
-
+    if(i>currentCharacter.Character_Inventory.potionList.size()+1)
+      InvalidCommandException.throwException();
     Potion potion = currentCharacter.Character_Inventory.potionList.get(i-1);
     currentCharacter.Character_Inventory.removePotion(i-1);
 
@@ -233,6 +238,7 @@ public class Game {
 
 
   }
+  // metoda ce afiseaza inventarul ca sa folosesti o potiune (harcodat)
   private void showInventoryHarcodat(Character currentCharacter)
   {
     System.out.println(" ____________________\n" +
@@ -249,6 +255,7 @@ public class Game {
 
 
   }
+  // metoda ce se ocupa de lupta harcodata
   public void theFightHarcodat(Character currentCharacter,Enemy enemy)
   {
     System.out.println(
@@ -329,8 +336,8 @@ public class Game {
       System.exit(0);
 
   }
-  public void thefight(Character currentCharacter,Enemy enemy)
-  {
+  // metoda ce se ocupa de lupta normala
+  public void thefight(Character currentCharacter,Enemy enemy) throws Exception {
     System.out.println(
             """
 
@@ -409,8 +416,8 @@ public class Game {
       System.exit(0);
 
   }
-  public void printStories(Character currentCharacter,Grid grid,Account account)
-  { System.out.println();
+  // metoda ce afiseaza cate o poveste noua la fiecare mutare si arata shop ul sau enemy ul
+  public void printStories(Character currentCharacter,Grid grid,Account account) throws Exception { System.out.println();
 
     Random rand = new Random();
     if(currentCharacter.Current_Oy<0)
@@ -459,6 +466,8 @@ public class Game {
           System.out.println((shop.shopPotionList.size() + 1) + ". Ca sa iesi din Shop");
           index = in.nextInt();
           if (index == shop.shopPotionList.size() + 1) break;
+          if (index > shop.shopPotionList.size() + 1)
+            InvalidCommandException.throwException();
           Potion potion = shop.getPotion(index);
           int canBuyPotion = currentCharacter.testCoinsPotion(potion);
           if (canBuyPotion == 1) {
@@ -485,12 +494,14 @@ public class Game {
       }
 
   }
+
   public void harcodareTastaP()
   {
     Scanner in = new Scanner(System.in);
     System.out.println("Apasati tasta P pentru a continua");
-   // in.nextLine();
+    in.nextLine();
   }
+  // metoda pentru testul harcodat
   public void testHarcodat(Grid grid, Character currentCharacter,Account account)
   {
     this.printStoriesHarcodat(grid,currentCharacter,account);
@@ -521,8 +532,8 @@ public class Game {
     grid.goSouth();
     this.printStoriesHarcodat(grid,currentCharacter,account); // finish
   }
-  public void testNormal(Grid grid, Character currentCharacter,Account account)
-  {       Scanner in = new Scanner(System.in);
+  // metoda pentru jocul normal
+  public void testNormal(Grid grid, Character currentCharacter,Account account) throws Exception {       Scanner in = new Scanner(System.in);
           int choice,i;
 
     while (true)
@@ -548,12 +559,13 @@ public class Game {
       { grid.goSouth();
 
       }
-      if(choice==2342) {
-        break;
+      if(choice>=5) {
+       InvalidCommandException.throwException();
       }
 
     }
   }
+  // metoda ce afiseaza povestea pentru fiecare mutare harcodata
   public void printStoriesHarcodat(Grid grid,Character currentCharacter,Account account)
   {
     System.out.println();
@@ -638,7 +650,8 @@ public class Game {
     }
 
   }
-  public void run(int index) {
+  // metoda run ce porneste jocul
+  public void run(int index) throws Exception {
     this.readAccounts();
     this.readStories();
 
@@ -663,7 +676,7 @@ public class Game {
   }
 
 
-
+  // metoda pentru singleton pattern, sa fim siguri ca se face doar o instanta a jocului
   public static Game getInstance() {
     if (game == null) game = new Game();
     return game;

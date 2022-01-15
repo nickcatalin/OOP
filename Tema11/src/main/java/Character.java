@@ -21,7 +21,7 @@ public abstract class Character extends Entity {
   public String toString() {
        return this.profession+" "+ this.name + " "+ this.level + " "+ this.experience;
   }
-  // metoda pentru cumpararea
+ // testare daca avem destui bani sa cumparam potiunea
     public int testCoinsPotion(Potion potion)
     {
         if (potion.potionPrice() < this.Character_Inventory.Coins

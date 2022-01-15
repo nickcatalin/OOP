@@ -20,6 +20,7 @@ private static Grid grid;
         this.lenght =Lenght;
         this.width = Width;
     }
+    // metoda ce genereaza o harta cu toate celulele goale
     private void HelperGrid()
     {
 
@@ -35,6 +36,8 @@ private static Grid grid;
 
         }
     }
+
+    // metoda ce adauga shop, enemy si finish pe harta de trebuie harcodata
     private  void generateTestMap()
     {   this.HelperGrid();
      ((ArrayList) this.get(0)).set(3, new Cell(Cell.Story.SHOP, 0, 3, new Shop()));
@@ -45,6 +48,7 @@ private static Grid grid;
 
 
     }
+    // metoda ce pune random numarul de shopuri si de inamici pe harta goala
     private void generateRandomMap()
     {
         Random rand = new Random();
@@ -117,6 +121,7 @@ private static Grid grid;
 
 
     }
+    // metoda ce printeaza harta
     public void printMap()
     {
         for (int i = 0; i <this.lenght ; i++) {
@@ -162,6 +167,7 @@ private static Grid grid;
            grid.generateRandomMap();
         return grid;
     }
+    // metodele de miscare
     public int goSouth()
     {
     if (this.MyCharacter.Current_Ox == this.lenght - 1) {

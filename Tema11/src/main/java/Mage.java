@@ -2,12 +2,9 @@ import java.util.Random;
 
 public class Mage extends Character{
 
-    // cel mai mic inventar
-    // imun la ice
-    // atribut pprincipal carisma
-
     public Mage(String name,int level,int experience)
     {
+        // Atributele lui mage
         super(name,level,experience);
         super.profession="Mage";
         super.MaxHealth=80;
@@ -20,8 +17,9 @@ public class Mage extends Character{
         super.strength=level;
         super.dexterity=level;
         super.charisma=2*level;
-        Random rand = new Random();
 
+        // 2-4 abilitati random
+        Random rand = new Random();
         int abilityNumber = rand.nextInt(2,4);
         while(abilityNumber>0)
         {   int randomAbility = rand.nextInt(3);
@@ -33,9 +31,9 @@ public class Mage extends Character{
                 super.AbilityList.add(new Earth());
             abilityNumber--;
         }
+        // inventarul lui mage
         super.Character_Inventory=new Inventory();
         super.Character_Inventory.Coins=rand.nextInt(50,100);
-
         super.Character_Inventory.maXInventory=10;
     }
     @Override

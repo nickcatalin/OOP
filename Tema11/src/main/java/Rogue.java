@@ -2,12 +2,9 @@ import java.util.Random;
 
 public class Rogue extends Character{
 
-    // greutate inventar medie
-    // imun la pamant
-    // atribut principal dexteritatea
-
     public Rogue(String name,int level,int experience)
     {
+        // Atributele lui rogue
         super(name,level,experience);
         super.profession="Rogue";
         super.MaxHealth=100;
@@ -20,6 +17,8 @@ public class Rogue extends Character{
         super.strength=level;
         super.dexterity=2*level;
         super.charisma=level;
+
+        //  2-4 abilitati random
         Random rand = new Random();
 
         int abilityNumber = rand.nextInt(2,4);
@@ -33,9 +32,9 @@ public class Rogue extends Character{
                 super.AbilityList.add(new Earth());
             abilityNumber--;
         }
+        // inventarul lui rogue
         super.Character_Inventory=new Inventory();
         super.Character_Inventory.Coins=rand.nextInt(50,100);
-
         super.Character_Inventory.maXInventory=15;
     }
     @Override

@@ -1,11 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Account {
 
   Information playerInfo;
-  List<Character> allAccountCharactes=new ArrayList<Character>() ;
+  List<Character> allAccountCharactes= new ArrayList<>() ;
   int allGamesNumber ;
 
   public String toString() {
@@ -14,8 +13,8 @@ public class Account {
 }
 
 class Information {
-  public Credentials playerCredentials = new Credentials();
-  public List<String> favoriteGames = new ArrayList<String>();
+  public Credentials playerCredentials;
+  public List<String> favoriteGames ;
   public String Name;
   public String Country;
 
@@ -101,7 +100,6 @@ class Credentials {
   }
   public boolean equals(String email, String password) {
 
-    if (this.email.equals(email)&& this.password.equals(password)) return true;
-    return false;
+    return this.email.equals(email) && this.password.equals(password);
   }
 }
